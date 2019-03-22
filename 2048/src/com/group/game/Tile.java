@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import com.ren.game.Game;
+
 public class Tile {
 	public static final int WIDTH = 80;
 	public static final int HEIGHT = 80;
@@ -68,6 +70,21 @@ public class Tile {
 			background = Color.black;
 			text = Color.white;
 		}
+		
+		g.setColor(new Color(0, 0, 0, 0));
+		g.fillRect(0, 0, WIDTH, WIDTH);
+		
+		g.setColor(background);
+		g.fillRoundRect(0, 0, WIDTH, HEIGHT, ARC_WIDTH, ARC_HEIGHT);
+		
+		g.setColor(text);
+		
+		if(value <= 64) {
+			font = Game.main.deriveFont(36f);
+		} else {
+			font = Game.main;
+		}
+		g.setFont(font);
 	}
 	
 }
