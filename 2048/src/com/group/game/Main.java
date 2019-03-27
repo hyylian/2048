@@ -2,8 +2,6 @@ package com.group.game;
 
 import javax.swing.JFrame;
 
-import com.ren.game.Game;
-
 public class Main {
 
 	public static void main(String[] args) {
