@@ -1,10 +1,23 @@
 package com.group.game;
 
+import javax.swing.JFrame;
+
+import com.ren.game.Game;
+
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		Game game = new Game();
+		
+		JFrame window = new JFrame("2048");
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setResizable(false);
+		window.add(game);
+		window.pack();
+		window.setLocationRelativeTo(null);
+		window.setVisible(true);
+		
+		game.start();
 	}
 
 }
