@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import com.ren.game.Game;
-
 public class Tile {
 	public static final int WIDTH = 80;
 	public static final int HEIGHT = 80;
@@ -85,6 +83,11 @@ public class Tile {
 			font = Game.main;
 		}
 		g.setFont(font);
+		
+		int drawX = WIDTH / 2 - DrawUtils.getMessageWidth("" + value, font, g) / 2;
+		int drawY = HEIGHT / 2 + DrawUtils.getMessageHeight("" + value, font, g) / 2;
+		g.drawString("" + value, drawX, drawY);
+		g.dispose();
 	}
 	
 }
