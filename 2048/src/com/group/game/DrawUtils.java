@@ -21,5 +21,4 @@ public class DrawUtils {
 		TextLayout tl = new TextLayout(message, font, g.getFontRenderContext());
 		return(int) tl.getBounds().getHeight();
 	}
-
 }

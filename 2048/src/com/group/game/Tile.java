@@ -30,6 +30,7 @@ public class Tile {
 	
 	private void drawImage() {
 		Graphics2D g = (Graphics2D)tileImage.getGraphics();
+		
 		// http://allcolor.codes/
 		if(value == 2) {
 			background = new Color (0xe9e9e9);

@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-
 import javax.swing.JPanel;
 
 public class Game extends JPanel implements KeyListener, Runnable{
@@ -31,7 +30,19 @@ public class Game extends JPanel implements KeyListener, Runnable{
 	}
 	
 	private void update() { // be call 60 time/second
-		
+		if (Keyboard.typed(KeyEvent.VK_LEFT)) { 
+			System.out.println("hit LEFT");
+		}
+		if (Keyboard.typed(KeyEvent.VK_RIGHT)) {
+			System.out.println("hit RIGHT");
+		}
+		if (Keyboard.typed(KeyEvent.VK_UP)) { 
+			System.out.println("hit UP");
+		}
+		if (Keyboard.typed(KeyEvent.VK_DOWN)) {
+			System.out.println("hit DOWN");
+		}
+		Keyboard.update();
 	}
 	
 	private void render() {
@@ -49,21 +60,78 @@ public class Game extends JPanel implements KeyListener, Runnable{
 
 	@Override
 	public void run() {
+		int fps = 0, updates = 0;
+		long fpsTimer = System.currentTimeMillis();
+		double nsPerUpdate = 1000000000.0 / 60;
 		
+		// -----last update time in nanoseconds---------
+		double then = System.nanoTime();
+		double unprocessed = 0;
+		
+		while (running) {
+
+			boolean shouldRender = false;
+			double now = System.nanoTime();
+			unprocessed += (now - then) / nsPerUpdate;
+			then = now;
+			
+			// ----update queue-----------
+			while (unprocessed >= 1) {
+				updates++;
+				update();
+				unprocessed--;
+				shouldRender = true;
+			}
+			
+			// ------render-------
+			if (shouldRender) {
+				fps++;
+				render();
+				shouldRender = false;
+			} else { // print out if error
+				try {
+					Thread.sleep(1);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		// ------FPS Timer---------
+		if (System.currentTimeMillis() - fpsTimer > 1000) {
+			System.out.printf("%d fps %d update", fps, updates);
+			System.out.println();
+			fps = 0;
+			updates = 0;
+			fpsTimer += 1000;
+		}
+	}
+	
+	public synchronized void start() {
+		if (running) return;
+		running = true;
+		game = new Thread(this, "game");
+		game.start();
+	}
+	
+	public synchronized void stop() {
+		if (!running) return;
+		running = false;
+		System.exit(0);
 	}
 
 	@Override
-	public void keyPressed(KeyEvent arg0) {
-		
+	public void keyPressed(KeyEvent e) {
+		Keyboard.keyPressed(e);
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
-		
+	public void keyReleased(KeyEvent e) {
+		Keyboard.keyReleased(e);
 	}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {
+	public void keyTyped(KeyEvent e) {
 		
 	}
 	
