@@ -18,6 +18,7 @@ public class Game extends JPanel implements KeyListener, Runnable{
 	private Thread game;
 	private boolean running;
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+	private GameBoard board;
 	
 	private long startTime;
 	private long elapsed;
@@ -27,9 +28,14 @@ public class Game extends JPanel implements KeyListener, Runnable{
 		setFocusable(true); // allow keyboard input to be set
 		setPreferredSize(new Dimension(WIDTH, HEIGHT)); // determine how big the frame is
 		addKeyListener(this);
+		
+		// x: center, y: move up 10 pixels from the bottom of the screen
+		board = new GameBoard(WIDTH / 2 - GameBoard.BOARD_WIDTH / 2, HEIGHT - GameBoard.BOARD_HEIGHT -10);
+		
 	}
 	
 	private void update() { // be call 60 time/second
+		board.update();
 		if (Keyboard.typed(KeyEvent.VK_LEFT)) { 
 			System.out.println("hit LEFT");
 		}
@@ -49,6 +55,7 @@ public class Game extends JPanel implements KeyListener, Runnable{
 		Graphics2D g = (Graphics2D)image.getGraphics(); // draw image and in memory
 		g.setColor(Color.white);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
+		board.render(g);
 		g.dispose();
 		//render board
 		
