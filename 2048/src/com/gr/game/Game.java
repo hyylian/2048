@@ -31,7 +31,13 @@ public class Game extends JPanel implements KeyListener, Runnable{
 	}
 	
 	private void update() {
-		
+		if (Keyboard.pressed[KeyEvent.VK_SPACE]) {
+			System.out.println("Hit space");
+		}
+		if (Keyboard.typed(KeyEvent.VK_LEFT)) {
+			System.out.println("Hit Q");
+		}
+		Keyboard.update();
 	}
 	
 	private void render() {
@@ -118,15 +124,12 @@ public class Game extends JPanel implements KeyListener, Runnable{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		Keyboard.keyPressed(e);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		Keyboard.keyReleased(e);
 	}
-	
 	
 }
