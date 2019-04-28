@@ -17,8 +17,9 @@ public class Game extends JPanel implements KeyListener, Runnable{
 	public static final int HEIGHT = 630; // height of the screen
 	public static final Font main = new Font("Feeling Lovely", Font.PLAIN, 28); // font.plain just refers to is it italicized playing or bold
 	private Thread game; 
-	private boolean running; // keep track on thread: starting, stoping 
+	private boolean running; // keep track on thread: starting, stopping 
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+	private GameBoard board;
 	
 	private long startTime; // keep track of if update
 	private long elapsed;
@@ -28,15 +29,19 @@ public class Game extends JPanel implements KeyListener, Runnable{
 		setFocusable(true); // allow keyboard input to be set
 		setPreferredSize(new Dimension(WIDTH, HEIGHT)); // determine how big the frame is
 		addKeyListener(this);
+		
+		//draw board
+		board = new GameBoard(WIDTH / 2 - GameBoard.BOARD_WIDTH /2, HEIGHT - GameBoard.BOARD_HEIGHT - 10);
 	}
 	
 	private void update() {
-		if (Keyboard.pressed[KeyEvent.VK_SPACE]) {
-			System.out.println("Hit space");
-		}
-		if (Keyboard.typed(KeyEvent.VK_LEFT)) {
-			System.out.println("Hit Q");
-		}
+		board.update();
+//		if (Keyboard.pressed[KeyEvent.VK_SPACE]) {
+//			System.out.println("Hit space");
+//		}
+//		if (Keyboard.typed(KeyEvent.VK_LEFT)) {
+//			System.out.println("Hit Q");
+//		}
 		Keyboard.update();
 	}
 	
@@ -44,7 +49,9 @@ public class Game extends JPanel implements KeyListener, Runnable{
 		Graphics2D g = (Graphics2D) image.getGraphics(); // actual image
 		g.setColor(Color.white); // clean the screen
 		g.fillRect(0, 0, WIDTH, HEIGHT); // draw rectangle around the entire screen
+		
 		// render board
+		board.render(g);
 		
 		g.dispose();
 		

@@ -85,7 +85,7 @@ public class Tile {
 			font = Game.main;
 		}
 		g.setFont(font);
-		//draw number
+		//draw tile
 		int drawX = WIDTH / 2 - DrawUtils.getMessageWidth("" + value, font, g)/2; // start at left
 		int drawY = HEIGHT / 2 + DrawUtils.getMessageHeight("" + value, font, g)/2; // start at bottom
 		g.drawString("" + value, drawX, drawY);
