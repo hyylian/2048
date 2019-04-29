@@ -7,20 +7,20 @@ import java.awt.image.BufferedImage;
 
 public class GameBoard {
 	
-	public static final int ROWS = 4;
-	public static final int COLS = 4;
+	public static final int ROWS = 4; // number of tile in row
+	public static final int COLS = 4; // number of tile in col
 	
-	private final int staringTiles = 2; // less than 16
+	private final int staringTiles = 2; // tile at beginning (less than 16)
 	
-	private Tile[][] board; //*******************keep track of where all the tile are on the board by storing it in this 2d array 
-	private boolean dead;
-	private boolean won;
-	private BufferedImage gameBoard;
-	private BufferedImage finalBoard; // have the game board and all the tiles on it
+	private Tile[][] board; // store tiles are on the board in 2d array 
+	private boolean dead; // lose
+	private boolean won; // win the game
+	private BufferedImage gameBoard; // background of game board
+	private BufferedImage finalBoard; // game board and all the tiles 
 	private int x; // where to render on the screen
 	private int y;
 	
-	private static int SPACING = 10; // the spacing in between where the the tiles are on the board (pixel)
+	private static int SPACING = 10; // Space between tile (pixel)
 	public static int BOARD_WIDTH = (COLS + 1)* SPACING + COLS * Tile.WIDTH; // get the actual width in pixels of the board
 	public static int BOARD_HEIGHT = (ROWS + 1)* SPACING + ROWS * Tile.HEIGHT;
 	
@@ -42,13 +42,12 @@ public class GameBoard {
 		g.fillRect(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 		g.setColor(Color.lightGray);
 		
-		// create background of the game board
+		// draw tile to game board
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLS; col++) {
-				int x = SPACING + SPACING *col + Tile.WIDTH * col;
-				int y = SPACING + SPACING *row + Tile.HEIGHT *row;
+				int x = SPACING + SPACING *col + Tile.WIDTH * col; // set x position
+				int y = SPACING + SPACING *row + Tile.HEIGHT *row; // set y position
 				g.fillRoundRect(x, y, Tile.WIDTH, Tile.HEIGHT, Tile.ARC_WIDTH, Tile.ARC_HEIGHT);
-				
 			}
 		}
 	}
