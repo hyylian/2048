@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-
 import javax.swing.JPanel;
 
 public class Game extends JPanel implements KeyListener, Runnable{
@@ -15,7 +14,7 @@ public class Game extends JPanel implements KeyListener, Runnable{
 	private static final long serialVersionUID = 1L;
 	public static final int WIDTH = 400; // width of the screen
 	public static final int HEIGHT = 630; // height of the screen
-	public static final Font main = new Font("Feeling Lovely", Font.PLAIN, 28); // font.plain just refers to is it italicized playing or bold
+	public static final Font main = new Font("Bebas Neue Regular", Font.PLAIN, 28); // font.plain just refers to is it italicized playing or bold
 	private Thread game; 
 	private boolean running; // keep track on thread: starting, stopping 
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -36,12 +35,18 @@ public class Game extends JPanel implements KeyListener, Runnable{
 	
 	private void update() {
 		board.update();
-//		if (Keyboard.pressed[KeyEvent.VK_SPACE]) {
-//			System.out.println("Hit space");
-//		}
-//		if (Keyboard.typed(KeyEvent.VK_LEFT)) {
-//			System.out.println("Hit Q");
-//		}
+		if (Keyboard.typed(KeyEvent.VK_LEFT)) { 
+			System.out.println("hit LEFT");
+		}
+		if (Keyboard.typed(KeyEvent.VK_RIGHT)) {
+			System.out.println("hit RIGHT");
+		}
+		if (Keyboard.typed(KeyEvent.VK_UP)) { 
+			System.out.println("hit UP");
+		}
+		if (Keyboard.typed(KeyEvent.VK_DOWN)) {
+			System.out.println("hit DOWN");
+		}
 		Keyboard.update();
 	}
 	
