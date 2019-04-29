@@ -4,13 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class GameBoard {
 	
 	public static final int ROWS = 4; // number of tile in row
 	public static final int COLS = 4; // number of tile in col
 	
-	private final int staringTiles = 2; // tile at beginning (less than 16)
+	private final int staringTiles = 2; // number of tile at beginning (less than 16)
 	
 	private Tile[][] board; // store tiles are on the board in 2d array 
 	private boolean dead; // lose
@@ -34,6 +35,7 @@ public class GameBoard {
 		finalBoard = new BufferedImage(BOARD_WIDTH, BOARD_HEIGHT, BufferedImage.TYPE_INT_RGB);
 		
 		createBoardImage();
+		start();
 	}
 	
 	private void createBoardImage() {
@@ -52,11 +54,51 @@ public class GameBoard {
 		}
 	}
 	
+	private void start () { // spawn in the first 2 tiles
+		for (int i = 0; i < staringTiles; i++) {
+			spawnRandom();
+		}
+	}
+	
+	private void spawnRandom() { // pick a spot & decide 2 or 4 is spawn
+		Random random = new Random();
+		boolean notValid = true;
+		
+		while (notValid) {
+			int location = random.nextInt(ROWS * COLS);
+			int row = location / ROWS;
+			int col = location % COLS;		
+			Tile current = board[row][col]; // current value position
+			
+			if (current == null) { // empty spot 
+				int value = random.nextInt(10) < 9 ? 2 : 4;
+				Tile tile = new Tile(value, getTileX(col), getTileY(row));
+				board[row][col] = tile;
+				notValid = false;
+			}
+		}
+	}
+	
+	public int getTileX (int col) {
+		return SPACING + col * Tile.WIDTH + col *SPACING;
+	}
+	
+	public int getTileY (int row) {
+		return SPACING + row * Tile.WIDTH + row *SPACING;
+	}
+	
 	public void render (Graphics2D g) {
 		Graphics2D g2d = (Graphics2D) finalBoard.getGraphics(); // draw to final board
 		g2d.drawImage(gameBoard, 0, 0, null);
 		
 		// draw tiles
+		for (int row = 0; row < ROWS; row++) {
+			for (int col = 0; col < COLS; col++) {
+				Tile current = board[row][col];
+				if (current == null) continue;
+				current.render(g2d);
+			}
+		}
 		
 		g.drawImage(finalBoard, x, y, null);
 		g2d.dispose();
@@ -64,6 +106,18 @@ public class GameBoard {
 	
 	public void update() {
 		checkKeys();
+		
+		for (int row = 0; row < ROWS; row++) {
+			for (int col = 0; col < COLS; col++) {
+				Tile current = board[row][col];
+				if (current == null) continue;
+				current.update();
+				// reset position
+				if (current.getValue() == 2048) { // if there is 2048 -> won 
+					won = true;
+				}
+			}
+		}
 	}
 	
 	private void checkKeys() { // moving tiles
