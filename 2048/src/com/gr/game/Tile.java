@@ -18,8 +18,11 @@ public class Tile {
 	private Color background;
 	private Color text;
 	private Font font;
+	private Point sildeTo;
 	private int x;
 	private int y;
+	
+	private boolean canCombine; // keep track of thing is already combine or not
 	
 	public Tile (int value, int x, int y) {
 		this.value = value;
@@ -102,6 +105,26 @@ public class Tile {
 	
 	public int getValue () {
 		return value;
+	}
+	
+	public void setValue (int value) {
+		this.value = value;
+	}
+
+	public boolean CanCombine() {
+		return canCombine;
+	}
+
+	public void setCanCombine(boolean canCombine) {
+		this.canCombine = canCombine;
+	}
+
+	public Point getSildeTo() {
+		return sildeTo;
+	}
+
+	public void setSildeTo(Point sildeTo) {
+		this.sildeTo = sildeTo;
 	}
 	
 }
