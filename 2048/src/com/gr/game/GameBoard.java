@@ -11,7 +11,7 @@ public class GameBoard {
 	public static final int ROWS = 4; // number of tile in row
 	public static final int COLS = 4; // number of tile in col
 	
-	private final int staringTiles = 3; // number of tile at beginning (less than 16)
+	private final int staringTiles = 2; // number of tile at beginning (less than 16)
 	
 	private Tile[][] board; // store tiles are on the board in 2d array 
 	private boolean dead; // lose
