@@ -58,7 +58,16 @@ public class GameBoard {
 		for (int i = 0; i < staringTiles; i++) {
 			spawnRandom();
 		}
+		
+//		spawn (0, 0, 2);
+//		spawn (0, 1, 2);
+//		spawn (0, 2, 2);
+//		spawn (0, 3, 2);
 	}
+	
+//	private void spawn (int row, int col, int value) {
+//		board[row][col] = new Tile (value, getTileX(col), getTileY(row));
+//	}
 	
 	private void spawnRandom() { // pick a spot & decide 2 or 4 is spawn
 		Random random = new Random();
@@ -113,6 +122,7 @@ public class GameBoard {
 				if (current == null) continue;
 				current.update();
 				// reset position
+				resetPosition (current, row, col);
 				if (current.getValue() == 2048) { // if there is 2048 -> won 
 					won = true;
 				}
@@ -120,6 +130,37 @@ public class GameBoard {
 		}
 	}
 	
+	private void resetPosition(Tile current, int row, int col) {
+		if (current == null) return;
+		
+		int x = getTileX(col);
+		int y = getTileY(row);
+		
+		int distX = current.getX() - x;
+		int distY = current.getY() - y;
+		
+		if (Math.abs(distX) < Tile.SLIDE_SPEED) {
+			current.setX(current.getX() - distX);
+		}
+		
+		if (Math.abs(distY) < Tile.SLIDE_SPEED) {
+			current.setX(current.getY() - distY);
+		}
+		
+		if (distX < 0) {
+			current.setX(current.getX() + Tile.SLIDE_SPEED);
+		}
+		if (distY < 0) {
+			current.setY(current.getY() + Tile.SLIDE_SPEED);
+		}
+		if (distX > 0) {
+			current.setX(current.getX() - Tile.SLIDE_SPEED);
+		}
+		if (distY > 0) {
+			current.setY(current.getY() - Tile.SLIDE_SPEED);
+		}
+	}
+
 	private boolean move (int row, int col, int horizontalDirection, int verticalDirection, Direction dir) {
 		boolean canMove = false;
 		
@@ -138,6 +179,7 @@ public class GameBoard {
 				board[newRow][newCol] = current;
 				board[newRow - verticalDirection][newCol - horizontalDirection] = null; // old place = null
 				board[newRow][newCol].setSildeTo(new Point(newRow, newCol));
+				canMove = true;
 			}
 			else if (board[newRow][newCol].getValue() == current.getValue() && board[newRow][newCol].CanCombine()) {
 				board[newRow][newCol].setCanCombine(false);
@@ -240,9 +282,47 @@ public class GameBoard {
 		if (canMove) {
 			spawnRandom();
 			// check dead
+			checkDead();
 		}
 	}
 	
+	private void checkDead () { // check if you lose
+		for (int row = 0; row < ROWS; row++) {
+			for (int col = 0; col < COLS; col++) {
+				if (board[row][col] == null) return;
+				if (checkSurroundingTiles (row, col, board[row][col])) {
+					return;
+				}
+			}
+		}
+		dead = true;
+		// set High score
+	}
+	
+	private boolean checkSurroundingTiles(int row, int col, Tile current) {
+		if (row > 0) {
+			Tile check = board[row - 1][col];
+			if (check == null) return true;
+			if (current.getValue() == check.getValue()) return true;
+		} 
+		if (row < ROWS - 1) {
+			Tile check = board[row + 1][col];
+			if (check == null) return true;
+			if (current.getValue() == check.getValue()) return true;
+		}
+		if (col > 0) {
+			Tile check = board[row][col - 1];
+			if (check == null) return true;
+			if (current.getValue() == check.getValue()) return true;
+		} 
+		if (col < COLS - 1) {
+			Tile check = board[row][col + 1];
+			if (check == null) return true;
+			if (current.getValue() == check.getValue()) return true;
+		}
+		return false;
+	}
+
 	private void checkKeys() { // moving tiles
 		if (Keyboard.typed(KeyEvent.VK_LEFT)) {
 			// move tiles left

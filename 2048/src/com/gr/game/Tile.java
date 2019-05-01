@@ -18,16 +18,17 @@ public class Tile {
 	private Color background;
 	private Color text;
 	private Font font;
-	private Point sildeTo;
+	private Point slideTo;
 	private int x;
 	private int y;
 	
-	private boolean canCombine; // keep track of thing is already combine or not
+	private boolean canCombine = true; // keep track of thing is already combine or not
 	
 	public Tile (int value, int x, int y) {
 		this.value = value;
 		this.x =x;
 		this.y = y;
+		slideTo = new Point(x, y);
 		tileImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		
 		drawImage(); // draw to tile number and background
@@ -109,6 +110,7 @@ public class Tile {
 	
 	public void setValue (int value) {
 		this.value = value;
+		drawImage();
 	}
 
 	public boolean CanCombine() {
@@ -120,11 +122,27 @@ public class Tile {
 	}
 
 	public Point getSildeTo() {
-		return sildeTo;
+		return slideTo;
 	}
 
-	public void setSildeTo(Point sildeTo) {
-		this.sildeTo = sildeTo;
+	public void setSildeTo(Point slideTo) {
+		this.slideTo = slideTo;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 	
 }
