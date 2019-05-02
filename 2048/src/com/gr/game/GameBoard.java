@@ -144,7 +144,7 @@ public class GameBoard {
 		}
 		
 		if (Math.abs(distY) < Tile.SLIDE_SPEED) {
-			current.setX(current.getY() - distY);
+			current.setY(current.getY() - distY);
 		}
 		
 		if (distX < 0) {
