@@ -187,7 +187,7 @@ public class GameBoard {
 				canMove = true;
 				board[newRow - verticalDirection][newCol - horizontalDirection] = null; // old place = null
 				board[newRow][newCol].setSildeTo(new Point(newRow, newCol));
-//				board[newRow][newCol].setCombineAnimation(true);
+				board[newRow][newCol].setCombineAnimation(true);
 				// add to score
 			}
 			else {

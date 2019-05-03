@@ -29,7 +29,7 @@ public class Tile {
 	private BufferedImage beginningImage;
 	
 	private boolean combineAnimation = false;
-	private double scaleCombine = 1.2;
+	private double scaleCombine = 1.3;
 	private BufferedImage combineImage;
 	
 	private boolean canCombine = true; // keep track of thing is already combine or not
@@ -41,7 +41,7 @@ public class Tile {
 		slideTo = new Point(x, y);
 		tileImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		beginningImage = new BufferedImage (WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
-		combineImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		combineImage = new BufferedImage(WIDTH*2, HEIGHT*2, BufferedImage.TYPE_INT_ARGB);
 		
 		drawImage(); // draw to tile number and background
 	}
@@ -129,20 +129,27 @@ public class Tile {
 			transform.translate(WIDTH / 2 - scaleCombine * WIDTH / 2, HEIGHT / 2 - scaleCombine * HEIGHT / 2);
 			transform.scale(scaleCombine, scaleCombine);
 			
-			Graphics2D g2d = (Graphics2D) beginningImage.getGraphics();
+			Graphics2D g2d = (Graphics2D) combineImage.getGraphics();
 			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 			g2d.setColor(new Color(0, 0, 0, 0));
 			g2d.fillRect(0, 0, WIDTH, HEIGHT);
 			g2d.drawImage(tileImage, transform, null);
-			scaleCombine -= 0.1;
+			scaleCombine -= 0.05;
 			g2d.dispose();
 			
-			if (scaleFirst <= 1) combineAnimation = false;
+			if (scaleCombine <= 1) combineAnimation = false;
 		}
 	}
 	
 	public void render (Graphics2D g) {
-		g.drawImage(tileImage, x, y, null);
+		if (beginningAnimation) {
+			g.drawImage(beginningImage, x, y, null);
+		} else if (combineAnimation) {
+			g.drawImage(combineImage, (int)(x + WIDTH / 2 - scaleCombine * WIDTH / 2), 
+									  (int)(y + HEIGHT /2 - scaleCombine * HEIGHT /2), null);
+		} else {
+			g.drawImage(tileImage, x, y, null);
+		}
 	}
 	
 	public int getValue () {
@@ -184,6 +191,15 @@ public class Tile {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public boolean isCombineAnimation() {
+		return combineAnimation;
+	}
+
+	public void setCombineAnimation(boolean combineAnimation) {
+		this.combineAnimation = combineAnimation;
+		if (combineAnimation) scaleCombine = 1.2;
 	}
 	
 }
