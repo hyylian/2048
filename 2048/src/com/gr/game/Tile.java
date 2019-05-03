@@ -22,6 +22,13 @@ public class Tile {
 	private int x;
 	private int y;
 	
+	private boolean beginningAnimation = true;
+	private double scareFirst = 0.1;
+	private BufferedImage beginningImage;
+	
+	private boolean combineAnimation = false;
+	private double scaleCombine = 1.2;
+	
 	private boolean canCombine = true; // keep track of thing is already combine or not
 	
 	public Tile (int value, int x, int y) {
