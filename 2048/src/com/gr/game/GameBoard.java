@@ -36,7 +36,11 @@ public class GameBoard {
 	public static int BOARD_WIDTH = (COLS + 1)* SPACING + COLS * Tile.WIDTH; // get the actual width in pixels of the board
 	public static int BOARD_HEIGHT = (ROWS + 1)* SPACING + ROWS * Tile.HEIGHT;
 	
+	private long elapsedMS;
+	private long fastestMS;
+	private long startTime;
 	private boolean hasStarted;
+	private String formattedTime = "00:00:00";
 	
 	//Saving
 	private String saveDatePath;
@@ -70,7 +74,12 @@ public class GameBoard {
 			FileWriter output = new FileWriter(file);
 			BufferedWriter writer = new BufferedWriter(output);
 			writer.write("" + 0);
+			
 			// create fastest time
+			writer.newLine();
+			writer.write("" + Integer.MAX_VALUE);
+			
+			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -85,7 +94,10 @@ public class GameBoard {
 			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
 			highScore = Integer.parseInt(reader.readLine());
+			
 			//read fastest time
+			fastestMS = Long.parseLong(reader.readLine());
+			
 			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,7 +111,14 @@ public class GameBoard {
 			File f = new File(saveDatePath, fileName);
 			output = new FileWriter(f);
 			BufferedWriter writer = new BufferedWriter(output);
+			
 			writer.write("" + highScore);
+			writer.newLine();
+			if (elapsedMS <= fastestMS && won) {
+				writer.write("" + elapsedMS);
+			} else {
+				writer.write("" + fastestMS);
+			}
 				
 			writer.close();
 		} catch (Exception e) {
@@ -207,6 +226,10 @@ public class GameBoard {
 				}
 			}
 		}
+	}
+	
+	private String formatTime (long millis) {
+		String formatted
 	}
 	
 	private void resetPosition(Tile current, int row, int col) {
