@@ -40,7 +40,7 @@ public class GameBoard {
 	private long fastestMS;
 	private long startTime;
 	private boolean hasStarted;
-	private String formattedTime = "00:00:00";
+	private String formattedTime = "00:00:000";
 	
 	//Saving
 	private String saveDatePath;
@@ -61,6 +61,7 @@ public class GameBoard {
 		board = new Tile[ROWS][COLS];
 		gameBoard = new BufferedImage(BOARD_WIDTH, BOARD_HEIGHT, BufferedImage.TYPE_INT_RGB);
 		finalBoard = new BufferedImage(BOARD_WIDTH, BOARD_HEIGHT, BufferedImage.TYPE_INT_RGB);
+		startTime = System.nanoTime();
 		
 		loadHighScore();
 		createBoardImage();
@@ -205,9 +206,24 @@ public class GameBoard {
 		g.drawString("" + score, 30, 40);
 		g.setColor(Color.red);
 		g.drawString("Best: " + highScore, Game.WIDTH - DrawUtils.getMessageWidth("Best: " + highScore, scoreFont, g2d) - 20, 40);
+		
+		// draw time
+		g.setColor(Color.black);
+		g.drawString("Time: " + formattedTime, 30, 90);
+		g.setColor(Color.red);
+		g.drawString("Fastest: " + formatTime(fastestMS), Game.WIDTH - DrawUtils.getMessageWidth("Fastest: " + formatTime(fastestMS), scoreFont, g) - 20, 90);
 	}
 	
 	public void update() {
+		if (!won && !dead) {
+			if (hasStarted) {
+				elapsedMS = (System.nanoTime() - startTime) / 10000000;
+				formattedTime = formatTime(elapsedMS);
+			} else {
+				startTime = System.nanoTime();
+			}
+		}
+		
 		checkKeys();
 		
 		if (score >= highScore) {
@@ -229,7 +245,58 @@ public class GameBoard {
 	}
 	
 	private String formatTime (long millis) {
-		String formatted
+		String formattedTime;
+		
+		String hourFormat = "";
+		int hours = (int)(millis / 3600000);
+		if (hours >= 1) {
+			millis -= hours * 3600000;
+			if (hours < 10) {
+				hourFormat = "0" + hours;
+			} else {
+				hourFormat = "" + hours;
+			}
+			hourFormat += ":";
+		}
+		
+		String minuteFormat;
+		int minutes = (int)(millis / 60000);
+		if (minutes >= 1) {
+			millis -= minutes * 60000;
+			if (minutes < 10) {
+				minuteFormat = "0" + minutes;
+			} else {
+				minuteFormat = "" + minutes;
+			}
+		} else {
+			minuteFormat = "00";
+		}
+		
+		String secondFormat;
+		int seconds = (int)(millis / 1000);
+		if (seconds >= 1) {
+			millis -= seconds * 1000;
+			if (seconds < 10) {
+				secondFormat = "0" + seconds;
+			} else {
+				secondFormat = "" + seconds;
+			}
+		} else {
+			secondFormat = "00";
+		}
+		
+		String milliFormat;
+		if (millis > 99) {
+			milliFormat = "" + millis;
+		} else if (millis > 9) {
+			milliFormat = "0" + millis;
+		} else {
+			milliFormat = "00" + millis;
+		}
+		
+		formattedTime = hourFormat + minuteFormat + ":" + secondFormat + ":" + milliFormat;
+		
+		return formattedTime;
 	}
 	
 	private void resetPosition(Tile current, int row, int col) {
@@ -401,6 +468,9 @@ public class GameBoard {
 		}
 		dead = true;
 		// set High score
+		if (score >= highScore) {
+			highScore = score;
+		}
 		setHighScore();
 	}
 	
