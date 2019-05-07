@@ -15,8 +15,8 @@ import java.util.Random;
 
 public class GameBoard {
 	
-	public static final int ROWS = 4; // number of tile in row
-	public static final int COLS = 4; // number of tile in col
+	public static final int ROWS = 5; // number of tile in row
+	public static final int COLS = 5; // number of tile in col
 	
 	private final int staringTiles = 2; // number of tile at beginning (less than 16)
 	
