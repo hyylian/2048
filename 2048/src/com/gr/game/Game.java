@@ -14,7 +14,7 @@ public class Game extends JPanel implements KeyListener, Runnable{
 	private static final long serialVersionUID = 1L;
 	public static final int WIDTH = 830; // width of the screen
 	public static final int HEIGHT = 430; // height of the screen
-	public static final Font main = new Font("Bebas Neue Regular", Font.PLAIN, 28); // font.plain just refers to is it italicized playing or bold
+	public static final Font main = new Font("Time New Roman", Font.PLAIN, 28); // font.plain just refers to is it italicized playing or bold
 	private Thread game; 
 	private boolean running; // keep track on thread: starting, stopping 
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);

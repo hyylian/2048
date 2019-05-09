@@ -203,13 +203,13 @@ public class GameBoard {
 		
 		g.setColor(Color.lightGray);
 		g.setFont(scoreFont);
-		g.drawString("" + score, 25, 40);
+		g.drawString("" + score, 20, 50);
 		g.setColor(Color.red);
-		g.drawString("Best: " + highScore, Game.WIDTH/2 - DrawUtils.getMessageWidth("Best: " + highScore, scoreFont, g2d) + 10, 40);
+		g.drawString("Best: " + highScore, Game.WIDTH/2 - DrawUtils.getMessageWidth("Best: " + highScore, scoreFont, g2d) + 10, 50);
 		
 		// draw time
 		g.setColor(Color.black);
-		g.drawString("Time: " + formattedTime, 25, 100);
+		g.drawString("Time: " + formattedTime, 20, 100);
 		g.setColor(Color.red);
 		g.drawString("Fastest: " + formatTime(fastestMS), Game.WIDTH/2 - DrawUtils.getMessageWidth("Fastest: " + formatTime(fastestMS), scoreFont, g) + 10, 100);
 	}
