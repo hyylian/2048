@@ -40,7 +40,7 @@ public class GameBoard {
 	private long fastestMS;
 	private long startTime;
 	private boolean hasStarted;
-	private String formattedTime = "00:00:000";
+	private String formattedTime = "00:00:00";
 	
 	//Saving
 	private String saveDatePath;
@@ -203,15 +203,15 @@ public class GameBoard {
 		
 		g.setColor(Color.lightGray);
 		g.setFont(scoreFont);
-		g.drawString("" + score, 30, 40);
+		g.drawString("" + score, 25, 40);
 		g.setColor(Color.red);
-		g.drawString("Best: " + highScore, Game.WIDTH - DrawUtils.getMessageWidth("Best: " + highScore, scoreFont, g2d) - 20, 40);
+		g.drawString("Best: " + highScore, Game.WIDTH/2 - DrawUtils.getMessageWidth("Best: " + highScore, scoreFont, g2d) + 10, 40);
 		
 		// draw time
 		g.setColor(Color.black);
-		g.drawString("Time: " + formattedTime, 30, 90);
+		g.drawString("Time: " + formattedTime, 25, 100);
 		g.setColor(Color.red);
-		g.drawString("Fastest: " + formatTime(fastestMS), Game.WIDTH - DrawUtils.getMessageWidth("Fastest: " + formatTime(fastestMS), scoreFont, g) - 20, 90);
+		g.drawString("Fastest: " + formatTime(fastestMS), Game.WIDTH/2 - DrawUtils.getMessageWidth("Fastest: " + formatTime(fastestMS), scoreFont, g) + 10, 100);
 	}
 	
 	public void update() {
@@ -248,9 +248,9 @@ public class GameBoard {
 		String formattedTime;
 		
 		String hourFormat = "";
-		int hours = (int)(millis / 3600000);
+		int hours = (int)(millis / 360000);
 		if (hours >= 1) {
-			millis -= hours * 3600000;
+			millis -= hours * 360000;
 			if (hours < 10) {
 				hourFormat = "0" + hours;
 			} else {
@@ -260,9 +260,9 @@ public class GameBoard {
 		}
 		
 		String minuteFormat;
-		int minutes = (int)(millis / 60000);
+		int minutes = (int)(millis / 6000);
 		if (minutes >= 1) {
-			millis -= minutes * 60000;
+			millis -= minutes * 6000;
 			if (minutes < 10) {
 				minuteFormat = "0" + minutes;
 			} else {
@@ -273,9 +273,9 @@ public class GameBoard {
 		}
 		
 		String secondFormat;
-		int seconds = (int)(millis / 1000);
+		int seconds = (int)(millis / 100);
 		if (seconds >= 1) {
-			millis -= seconds * 1000;
+			millis -= seconds * 100;
 			if (seconds < 10) {
 				secondFormat = "0" + seconds;
 			} else {
@@ -286,12 +286,10 @@ public class GameBoard {
 		}
 		
 		String milliFormat;
-		if (millis > 99) {
+		if (millis > 9) {
 			milliFormat = "" + millis;
-		} else if (millis > 9) {
-			milliFormat = "0" + millis;
 		} else {
-			milliFormat = "00" + millis;
+			milliFormat = "0" + millis;
 		}
 		
 		formattedTime = hourFormat + minuteFormat + ":" + secondFormat + ":" + milliFormat;
