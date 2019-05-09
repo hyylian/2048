@@ -7,6 +7,7 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 public class AudioHandler {
 	
@@ -56,5 +57,28 @@ public class AudioHandler {
 				baseFormat.getSampleRate(), 
 				false
 				);
+		AudioInputStream decodedIn = AudioSystem.getAudioInputStream(decodeFormat, input);
+		
+		try {
+			Clip c = AudioSystem.getClip();
+			c.open(decodedIn);
+			sounds.put(name, c);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+	
+	public void play (String name, int loopCount) {
+		if (sounds.get(name).isRunning()) {
+			sounds.get(name).stop();
+		}
+		sounds.get(name).setFramePosition(0);
+		sounds.get(name).loop(loopCount);
+	}
+	
+	public void adjustVolume (String name, int value) {
+		FloatControl control = (FloatControl)sounds.get(name).getControl(FloatControl.Type.MASTER_GAIN);
+		control.setValue(value);
+	}
+	
 }

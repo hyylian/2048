@@ -13,6 +13,8 @@ import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.util.Random;
 
+import javax.sound.sampled.Clip;
+
 public class GameBoard {
 	
 	public static final int ROWS = 5; // number of tile in row
@@ -46,6 +48,8 @@ public class GameBoard {
 	private String saveDatePath;
 	private String fileName = "SaveData";
 	
+	private AudioHandler audio;
+	
 	public GameBoard(int x, int y) {
 		try {
 			saveDatePath = GameBoard.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
@@ -66,6 +70,12 @@ public class GameBoard {
 		loadHighScore();
 		createBoardImage();
 		start();
+		
+		audio = AudioHandler.getInstance();
+		audio.load("MainSong.mp3", "BG");
+		audio.load("click.wav", "click");
+		audio.adjustVolume("BG", -10);
+		audio.play("BG", Clip.LOOP_CONTINUOUSLY);
 	}
 	
 	private void createSaveData() {
@@ -451,6 +461,7 @@ public class GameBoard {
 		}
 		
 		if (canMove) {
+			audio.play("click", 0);
 			spawnRandom();
 			// check dead
 			checkDead();
