@@ -13,6 +13,8 @@ import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.util.Random;
 
+import gui2048.MainMenuPanel;
+
 public class GameBoard {
 	
 	public static final int ROWS = 4;
