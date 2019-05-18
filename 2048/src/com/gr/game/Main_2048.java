@@ -2,7 +2,7 @@ package com.gr.game;
 
 import javax.swing.JFrame;
 
-public class Start {
+public class Main_2048 {
 	
 	public static void main(String[] args) {
 		Game game = new Game();
