@@ -1,4 +1,4 @@
-package com.gr.game;
+package game2048;
 
 import javax.swing.JFrame;
 

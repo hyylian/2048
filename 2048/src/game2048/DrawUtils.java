@@ -1,4 +1,4 @@
-package com.gr.game;
+package game2048;
 
 import java.awt.Font;
 import java.awt.Graphics2D;
