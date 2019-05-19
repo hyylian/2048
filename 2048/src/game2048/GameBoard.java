@@ -130,7 +130,7 @@ public class GameBoard {
 		}
 		if (!dead) {
 			if (hasStarted) {
-				elapsedMS = (System.nanoTime() - startTime) / 1000000;
+				elapsedMS = (System.nanoTime() - startTime) / 10000000;
                                 score.setTime(elapsedMS);
                                 
 			}

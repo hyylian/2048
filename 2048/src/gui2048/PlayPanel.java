@@ -73,13 +73,14 @@ public class PlayPanel extends GuiPanel {
 		g2d.fillRect(0, 0, info.getWidth(), info.getHeight());
 		g2d.setColor(Color.lightGray);
 		g2d.setFont(scoreFont);
-		g2d.drawString("" + scores.getCurrentScore(), 30, 40);
-		g2d.setColor(Color.red);
-                g2d.drawString("Best: " + scores.getCurrentTopScore(), Game.WIDTH - DrawUtils.getMessageWidth("Best: " + scores.getCurrentTopScore(), scoreFont, g2d) - 20, 40);
-                g2d.drawString("Fastest: " + bestTimeF, Game.WIDTH - DrawUtils.getMessageWidth("Fastest: " + bestTimeF, scoreFont, g2d) - 20, 90);
-		g2d.setColor(Color.black);
+		g2d.drawString("Score: " + scores.getCurrentScore(), 30, 40);
 		
-                g2d.drawString("Time: " + timeF, 30, 90);
+		g2d.drawString("Time: " + timeF, 30, 80);
+		
+		g2d.setColor(Color.red);
+		g2d.drawString("Best Score: " + scores.getCurrentTopScore(), 30, 120);
+		g2d.drawString("Fastest: " + bestTimeF, 30, 160);
+        
 		g2d.dispose();
 		g.drawImage(info, 0, 0, null);
 	}

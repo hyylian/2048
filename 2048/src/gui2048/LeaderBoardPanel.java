@@ -82,9 +82,9 @@ public class LeaderBoardPanel extends GuiPanel{
 			strings = convertToStrings(lBoard.getTopTiles());
 		}
 		else {
-			for(Long l : lBoard.getTopTimes()){
-				strings.add(DrawUtils.formatTime(l));
-			}
+//			for(Long l : lBoard.getTopTimes()){
+//				strings.add(DrawUtils.formatTime(l));
+//			}
 		}
 		
 		g.setColor(Color.black);

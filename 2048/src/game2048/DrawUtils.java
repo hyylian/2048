@@ -21,44 +21,56 @@ public class DrawUtils {
 		return (int) tl.getBounds().getHeight();
 	}
 	
-	public static String formatTime(long millis) {
-		String formattedTime = "";
-                int hours = (int) (millis / 3600000);
+	public static String formatTime (long millis) {
+		String formattedTime;
+		
+		String hourFormat = "";
+		int hours = (int)(millis / 360000);
 		if (hours >= 1) {
-			millis -= hours * 3600000;
-			formattedTime += hours + ":";
+			millis -= hours * 360000;
+			if (hours < 10) {
+				hourFormat = "0" + hours;
+			} else {
+				hourFormat = "" + hours;
+			}
+			hourFormat += ":";
 		}
-                
-		int minutes = (int) (millis / 60000);
-                
+		
+		String minuteFormat;
+		int minutes = (int)(millis / 6000);
 		if (minutes >= 1) {
-			millis -= minutes * 60000;
+			millis -= minutes * 6000;
 			if (minutes < 10) {
-				formattedTime += "0" + minutes + ":";
+				minuteFormat = "0" + minutes;
+			} else {
+				minuteFormat = "" + minutes;
 			}
-			else {
-				formattedTime += minutes + ":";
-			}
+		} else {
+			minuteFormat = "00";
 		}
-                
-		int seconds = (int) (millis / 100);
+		
+		String secondFormat;
+		int seconds = (int)(millis / 100);
 		if (seconds >= 1) {
 			millis -= seconds * 100;
 			if (seconds < 10) {
-				formattedTime += "0" + seconds + ":";
+				secondFormat = "0" + seconds;
+			} else {
+				secondFormat = "" + seconds;
 			}
-			else {
-				formattedTime += seconds + ":";
-			}
+		} else {
+			secondFormat = "00";
 		}
-
+		
+		String milliFormat;
 		if (millis > 9) {
-			formattedTime += millis;
+			milliFormat = "" + millis;
+		} else {
+			milliFormat = "0" + millis;
 		}
-		else {
-			formattedTime += "0" + millis;
-		}
-
+		
+		formattedTime = hourFormat + minuteFormat + ":" + secondFormat + ":" + milliFormat;
+		
 		return formattedTime;
 	}
 }

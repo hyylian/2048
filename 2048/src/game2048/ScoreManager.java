@@ -17,7 +17,7 @@ public class ScoreManager {
 	private long time;
 	private long startingTime;
 	private long bestTime;
-	private int[] board = new int[16];
+	private int[] board = new int[GameBoard.ROWS * GameBoard.COLS];
 
 	// File
 	private String filePath;

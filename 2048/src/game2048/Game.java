@@ -29,7 +29,6 @@ public class Game extends JPanel implements KeyListener, Runnable, MouseListener
 	private boolean running; // keep track on thread: starting, stopping 
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private GuiScreen screen;
-	private GameBoard board;
 	
 	public Game() {
 		setFocusable(true);
@@ -42,8 +41,6 @@ public class Game extends JPanel implements KeyListener, Runnable, MouseListener
 		screen.add("Play", new PlayPanel());
                 screen.add("Difficulty",new DifficultyPanel());
 		screen.add("Leaderboards", new LeaderBoardPanel());
-		//draw board
-				board = new GameBoard(WIDTH - GameBoard.BOARD_WIDTH - 10, HEIGHT / 2 - GameBoard.BOARD_HEIGHT/2);
 		screen.setCurrentPanel("Menu");
 	}
 
