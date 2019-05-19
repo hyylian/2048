@@ -12,8 +12,8 @@ public class Tile {
 	public static final int WIDTH = 80; // width in pixel of tile
 	public static final int HEIGHT = 80; // height of tile
 	public static final int SLIDE_SPEED = 20;
-	public static final int ARC_WIDTH = 15;
-	public static final int ARC_HEIGHT = 15;
+	public static final int ARC_WIDTH = 0;
+	public static final int ARC_HEIGHT = 0;
 	
 	private int value; // number in tile
 	private BufferedImage tileImage; // actual tile image

@@ -22,7 +22,7 @@ public class ScoreManager {
 	// File
 	private String filePath;
 	private String temp;
-	private GameBoard gBoard;
+//	private GameBoard gBoard;
 
 	// Random booleans
 	public boolean newGame;
@@ -35,7 +35,7 @@ public class ScoreManager {
 		}
 		temp = "TEMP.tmp";
 
-		this.gBoard = gBoard;
+//		this.gBoard = gBoard;
 	}
 
 	public void reset() {

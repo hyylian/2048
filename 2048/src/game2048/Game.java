@@ -8,7 +8,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+
 import javax.swing.JPanel;
 
 import gui2048.GuiScreen;
@@ -17,7 +19,7 @@ import gui2048.MainMenuPanel;
 import gui2048.PlayPanel;
 import gui2048.DifficultyPanel;
 
-public class Game extends JPanel implements KeyListener, Runnable{
+public class Game extends JPanel implements KeyListener, Runnable, MouseListener, MouseMotionListener{
 
 	private static final long serialVersionUID = 1L;
 	public static final int WIDTH = 830; // width of the screen
@@ -26,11 +28,8 @@ public class Game extends JPanel implements KeyListener, Runnable{
 	private Thread game; 
 	private boolean running; // keep track on thread: starting, stopping 
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+	private GuiScreen screen;
 	private GameBoard board;
-	
-	private long startTime; // keep track of if update
-	private long elapsed;
-	private boolean set;
 	
 	public Game() {
 		setFocusable(true);
@@ -43,6 +42,8 @@ public class Game extends JPanel implements KeyListener, Runnable{
 		screen.add("Play", new PlayPanel());
                 screen.add("Difficulty",new DifficultyPanel());
 		screen.add("Leaderboards", new LeaderBoardPanel());
+		//draw board
+				board = new GameBoard(WIDTH - GameBoard.BOARD_WIDTH - 10, HEIGHT / 2 - GameBoard.BOARD_HEIGHT/2);
 		screen.setCurrentPanel("Menu");
 	}
 

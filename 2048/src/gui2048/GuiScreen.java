@@ -4,6 +4,9 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
+import game2048.Game;
+import game2048.GameBoard;
+
 public class GuiScreen {
 
 	private static GuiScreen screen;
