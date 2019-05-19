@@ -216,23 +216,23 @@ public class GameBoard {
 		return SPACING + row * Tile.HEIGHT + row * SPACING;
 	}
 
-	private boolean checkOutOfBounds(int direction, int row, int col) {
-		if (direction == LEFT) {
+	private boolean checkOutOfBounds(Direction direction, int row, int col) {
+		if (direction == Direction.LEFT) {
 			return col < 0;
 		}
-		else if (direction == RIGHT) {
+		else if (direction == Direction.RIGHT) {
 			return col > COLS - 1;
 		}
-		else if (direction == UP) {
+		else if (direction == Direction.UP) {
 			return row < 0;
 		}
-		else if (direction == DOWN) {
+		else if (direction == Direction.DOWN) {
 			return row > ROWS - 1;
 		}
 		return false;
 	}
 
-	private boolean move(int row, int col, int horizontalDirection, int verticalDirection, int direction) {
+	private boolean move(int row, int col, int horizontalDirection, int verticalDirection, Direction direction) {
 		boolean canMove = false;
 		Tile current = board[row][col];
 		if (current == null) return false;
@@ -265,12 +265,12 @@ public class GameBoard {
 		return canMove;
 	}
 
-	public void moveTiles(int direction) {
+	public void moveTiles(Direction direction) {
 		boolean canMove = false;
 		int horizontalDirection = 0;
 		int verticalDirection = 0;
 
-		if (direction == LEFT) {
+		if (direction == Direction.LEFT) {
 			horizontalDirection = -1;
 			for (int row = 0; row < ROWS; row++) {
 				for (int col = 0; col < COLS; col++) {
@@ -280,7 +280,7 @@ public class GameBoard {
 				}
 			}
 		}
-		else if (direction == RIGHT) {
+		else if (direction == Direction.RIGHT) {
 			horizontalDirection = 1;
 			for (int row = 0; row < ROWS; row++) {
 				for (int col = COLS - 1; col >= 0; col--) {
@@ -290,7 +290,7 @@ public class GameBoard {
 				}
 			}
 		}
-		else if (direction == UP) {
+		else if (direction == Direction.UP) {
 			verticalDirection = -1;
 			for (int row = 0; row < ROWS; row++) {
 				for (int col = 0; col < COLS; col++) {
@@ -300,7 +300,7 @@ public class GameBoard {
 				}
 			}
 		}
-		else if (direction == DOWN) {
+		else if (direction == Direction.DOWN) {
 			verticalDirection = 1;
 			for (int row = ROWS - 1; row >= 0; row--) {
 				for (int col = 0; col < COLS; col++) {
@@ -396,19 +396,19 @@ public class GameBoard {
 
 	private void checkKeys() {
 		if (!Keyboard.pressed[KeyEvent.VK_LEFT] && Keyboard.prev[KeyEvent.VK_LEFT]) {
-			moveTiles(LEFT);
+			moveTiles(Direction.LEFT);
 			if (!hasStarted) hasStarted = !dead;
 		}
 		if (!Keyboard.pressed[KeyEvent.VK_RIGHT] && Keyboard.prev[KeyEvent.VK_RIGHT]) {
-			moveTiles(RIGHT);
+			moveTiles(Direction.RIGHT);
 			if (!hasStarted) hasStarted = !dead;
 		}
 		if (!Keyboard.pressed[KeyEvent.VK_UP] && Keyboard.prev[KeyEvent.VK_UP]) {
-			moveTiles(UP);
+			moveTiles(Direction.UP);
 			if (!hasStarted) hasStarted = !dead;
 		}
 		if (!Keyboard.pressed[KeyEvent.VK_DOWN] && Keyboard.prev[KeyEvent.VK_DOWN]) {
-			moveTiles(DOWN);
+			moveTiles(Direction.DOWN);
 			if (!hasStarted) hasStarted = !dead;
 		}
 	}

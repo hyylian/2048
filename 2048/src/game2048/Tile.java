@@ -161,7 +161,7 @@ public class Tile {
 		drawImage();
 	}
 
-	public boolean CanCombine() {
+	public boolean canCombine() {
 		return canCombine;
 	}
 
@@ -169,11 +169,11 @@ public class Tile {
 		this.canCombine = canCombine;
 	}
 
-	public Point getSildeTo() {
+	public Point getSlideTo() {
 		return slideTo;
 	}
 
-	public void setSildeTo(Point slideTo) {
+	public void setSlideTo(Point slideTo) {
 		this.slideTo = slideTo;
 	}
 
