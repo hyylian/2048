@@ -39,7 +39,7 @@ public class GameBoard {
 	private long startTime;
 	private boolean hasStarted;
         
-	private ScoreManager scores;
+	private ScoreManager score;
 	private LeaderBoards lBoard;
         
 	private int saveCount = 0;
@@ -52,18 +52,18 @@ public class GameBoard {
 		createBoardImage();
 		lBoard = LeaderBoards.getInstance();
 		lBoard.loadScores();
-		scores = new ScoreManager(this);
-		scores.loadGame();
-		scores.setBestTime(lBoard.getFastestTime());
-		scores.setCurrentTopScore(lBoard.getHighScore());
-		if(scores.newGame()){
+		score = new ScoreManager(this);
+		score.loadGame();
+		score.setBestTime(lBoard.getFastestTime());
+		score.setCurrentTopScore(lBoard.getHighScore());
+		if(score.newGame()){
 			start();
-			scores.saveGame();
+			score.saveGame();
 		}
 		else{
-			for(int i = 0; i < scores.getBoard().length; i++){
-				if(scores.getBoard()[i] == 0) continue;
-				spawn(i / ROWS, i % COLS, scores.getBoard()[i]);
+			for(int i = 0; i < score.getBoard().length; i++){
+				if(score.getBoard()[i] == 0) continue;
+				spawn(i / ROWS, i % COLS, score.getBoard()[i]);
 			}
 			// not calling setDead because we don't want to save anything
 			dead = checkDead();
@@ -75,7 +75,7 @@ public class GameBoard {
 	public void reset(){
 		board = new Tile[ROWS][COLS];
 		start();
-		scores.saveGame();
+		score.saveGame();
 		dead = false;
 		won = false;
 		hasStarted = false;
@@ -118,20 +118,20 @@ public class GameBoard {
                 else{
                     time=ScoreManager.getDifficulty();
                 }
-                if(scores.getTime()!=0&&scores.getTime()%time==0){
-                        scores.shuffle();                                    
+                if(score.getTime()!=0 && score.getTime()%time==0){
+                        score.shuffle();                                    
                         System.out.println("SHUF!");
                 }
                     
 		saveCount++;
 		if (saveCount >= 120) { 
 			saveCount = 0;
-			scores.saveGame();
+			score.saveGame();
 		}
 		if (!dead) {
 			if (hasStarted) {
 				elapsedMS = (System.nanoTime() - startTime) / 1000000;
-                                scores.setTime(elapsedMS);
+                                score.setTime(elapsedMS);
                                 
 			}
 			else {
@@ -141,8 +141,8 @@ public class GameBoard {
                 
 		checkKeys();
                 
-		if (scores.getCurrentScore() > scores.getCurrentTopScore()) {
-			scores.setCurrentTopScore(scores.getCurrentScore());
+		if (score.getCurrentScore() > score.getCurrentTopScore()) {
+			score.setCurrentTopScore(score.getCurrentScore());
 		}
                 
                 int count=0;
@@ -256,7 +256,7 @@ public class GameBoard {
 				board[newRow - verticalDirection][newCol - horizontalDirection] = null;
 				board[newRow][newCol].setSlideTo(new Point(newRow, newCol));
 				board[newRow][newCol].setCombineAnimation(true);
-				scores.setCurrentScore(scores.getCurrentScore() + board[newRow][newCol].getValue());
+				score.setCurrentScore(score.getCurrentScore() + board[newRow][newCol].getValue());
 			}
 			else {
 				move = false;
@@ -431,7 +431,7 @@ public class GameBoard {
 	public void setDead(boolean dead) {
 		if(!this.dead && dead){
 			lBoard.addTile(getHighestTileValue());
-			lBoard.addScore(scores.getCurrentScore());
+			lBoard.addScore(score.getCurrentScore());
 			lBoard.saveScores();
 		}
 		this.dead = dead;
@@ -474,13 +474,13 @@ public class GameBoard {
 
 	public void setWon(boolean won) {
 		if(!this.won && won && !dead){ 
-			lBoard.addTime(scores.getTime());
+			lBoard.addTime(score.getTime());
 			lBoard.saveScores();
 		}
 		this.won = won;
 	}
 	
-	public ScoreManager getScores(){
-		return scores;
+	public ScoreManager getScore(){
+		return score;
 	} 
 }
