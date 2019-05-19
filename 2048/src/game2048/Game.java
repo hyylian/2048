@@ -6,8 +6,16 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+
+import gui2048.GuiScreen;
+import gui2048.LeaderBoardPanel;
+import gui2048.MainMenuPanel;
+import gui2048.PlayPanel;
+import gui2048.DifficultyPanel;
 
 public class Game extends JPanel implements KeyListener, Runnable{
 
@@ -25,103 +33,97 @@ public class Game extends JPanel implements KeyListener, Runnable{
 	private boolean set;
 	
 	public Game() {
-		setFocusable(true); // allow keyboard input to be set
-		setPreferredSize(new Dimension(WIDTH, HEIGHT)); // determine how big the frame is
+		setFocusable(true);
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		addKeyListener(this);
-		
-		//draw board
-		board = new GameBoard(WIDTH - GameBoard.BOARD_WIDTH - 10, HEIGHT / 2 - GameBoard.BOARD_HEIGHT/2); // WIDTH / 2 - GameBoard.BOARD_WIDTH /2, HEIGHT - GameBoard.BOARD_HEIGHT - 10
+		addMouseListener(this);
+		addMouseMotionListener(this);
+		screen = GuiScreen.getInstance();
+		screen.add("Menu", new MainMenuPanel());
+		screen.add("Play", new PlayPanel());
+                screen.add("Difficulty",new DifficultyPanel());
+		screen.add("Leaderboards", new LeaderBoardPanel());
+		screen.setCurrentPanel("Menu");
 	}
-	
+
 	private void update() {
-		board.update();
-		if (Keyboard.typed(KeyEvent.VK_LEFT)) { 
-			System.out.println("hit LEFT");
-		}
-		if (Keyboard.typed(KeyEvent.VK_RIGHT)) {
-			System.out.println("hit RIGHT");
-		}
-		if (Keyboard.typed(KeyEvent.VK_UP)) { 
-			System.out.println("hit UP");
-		}
-		if (Keyboard.typed(KeyEvent.VK_DOWN)) {
-			System.out.println("hit DOWN");
-		}
+		screen.update();
+                
 		Keyboard.update();
 	}
-	
+
 	private void render() {
-		Graphics2D g = (Graphics2D) image.getGraphics(); // actual image
-		g.setColor(Color.white); // clean the screen
-		g.fillRect(0, 0, WIDTH, HEIGHT); // draw rectangle around the entire screen
-		
-		// render board
-		board.render(g);
-		
+		Graphics2D g = (Graphics2D) image.getGraphics();
+		g.setColor(Color.white);
+		g.fillRect(0, 0, WIDTH, HEIGHT);
+		screen.render(g);
 		g.dispose();
-		
-		Graphics2D g2d = (Graphics2D)getGraphics(); //actual graphics that we draw image
+
+		Graphics2D g2d = (Graphics2D) getGraphics();
 		g2d.drawImage(image, 0, 0, null);
 		g2d.dispose();
 	}
-	
+
 	@Override
 	public void run() {
 		int fps = 0, updates = 0;
 		long fpsTimer = System.currentTimeMillis();
-		double nsPerUpdate = 1000000000.0/60; // how many nanoseconds between updates
-		
+		double nsPerUpdate = 1000000000.0 / 60;
+
 		// last update time in nanoseconds
 		double then = System.nanoTime();
-		double unprocessed = 0; // how many update we need to do
-		
-		while(running) {
+		double unprocessed = 0;
+
+		while (running) {
 
 			boolean shouldRender = false;
-			double now = System.nanoTime(); // get new time
-			unprocessed += (now - then) / nsPerUpdate; // count how many update we need to do based on how much time has passed
+
+			double now = System.nanoTime();
+			unprocessed += (now - then) / nsPerUpdate;
 			then = now;
-			
-			//update queue
+
+			// Update queue
 			while (unprocessed >= 1) {
+
+				// update
 				updates++;
 				update();
 				unprocessed--;
 				shouldRender = true;
 			}
-			
-			//render
-			if(shouldRender) { //rendering
+
+			// Render
+			if (shouldRender) {
 				fps++;
 				render();
 				shouldRender = false;
-			} else { // not rendering
+			}
+			else {
 				try {
 					Thread.sleep(1);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-		}
 
-		// FPS Timer
-		if (System.currentTimeMillis() - fpsTimer > 1000) {
-			System.out.printf("%d fps %d updates", fps, updates);
-			System.out.println();
-			// reset
-			fps = 0;
-			updates = 0;
-			fpsTimer += 1000;
+			// FPS timer
+			if (System.currentTimeMillis() - fpsTimer > 1000) {
+				System.out.printf("%d fps %d updates", fps, updates);
+                                System.out.println(" "+GameBoard.getTime());
+                                fps = 0;
+				updates = 0;
+				fpsTimer += 1000;
+			}
 		}
 	}
-	
-	public synchronized void start() { // synchronized because want entire method gets called
+
+	public synchronized void start() {
 		if (running) return;
 		running = true;
 		game = new Thread(this, "game");
 		game.start();
 	}
-	
+
 	public synchronized void stop() {
 		if (!running) return;
 		running = false;
@@ -130,7 +132,6 @@ public class Game extends JPanel implements KeyListener, Runnable{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -143,5 +144,36 @@ public class Game extends JPanel implements KeyListener, Runnable{
 	public void keyReleased(KeyEvent e) {
 		Keyboard.keyReleased(e);
 	}
-	
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		screen.mousePressed(e);
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		screen.mouseReleased(e);
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		screen.mouseDragged(e);
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		screen.mouseMoved(e);
+	}
 }
