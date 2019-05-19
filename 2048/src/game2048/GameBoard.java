@@ -118,7 +118,7 @@ public class GameBoard {
                 else{
                     time=ScoreManager.getDifficulty();
                 }
-                if(score.getTime()!=0 && score.getTime()%time==0){
+                if( score.getTime() != 0 && score.getTime() % time==0){
                         score.shuffle();                                    
                         System.out.println("SHUF!");
                 }
