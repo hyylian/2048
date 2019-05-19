@@ -4,38 +4,55 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import game2048.DrawUtils;
 import game2048.Game;
 import game2048.GameBoard;
 
 public class DifficultyPanel extends GuiPanel {
-    private Font titleFont = Game.main.deriveFont(72f);
-private String title = "Difficluty";
-private int buttonWidth = 220;
+	
+	private Font titleFont = Game.main.deriveFont(90f);
+	private String title = "Difficulty";
+	private int buttonWidth = 220;
     private GameBoard board;
-    private final GuiButton EasyButton,MedButton,HardButton;
+    private int height = 250;
+    
+    private final GuiButton EasyButton;
+    private final GuiButton HardButton;
     public static long easy=10000,med=600000,hard=300000;
+    
     public DifficultyPanel() {
-	EasyButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, 220, buttonWidth, 60);
-	EasyButton.addActionListener((ActionEvent e) -> {
-                GameBoard.setTime(easy);
-                GuiScreen.getInstance().setCurrentPanel("Play");
-            });
-            EasyButton.setText("Easy");
-            add(EasyButton);
-            MedButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, 310, buttonWidth, 60);
-	MedButton.addActionListener((ActionEvent e) -> {
-                GameBoard.setTime(med);
-                GuiScreen.getInstance().setCurrentPanel("Play");
-            });
-	MedButton.setText("Medium");
-	add(MedButton);
-	HardButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, 400, buttonWidth, 60);
-	HardButton.addActionListener((ActionEvent e) -> {
-                GameBoard.setTime(hard);
-                GuiScreen.getInstance().setCurrentPanel("Play");
-            });
+    	super();
+    	EasyButton = new GuiButton(Game.WIDTH / 4 - buttonWidth / 2, height, buttonWidth, 60);
+    	EasyButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GameBoard.setTime(easy);
+				GuiScreen.getInstance().setCurrentPanel("Play");
+			}
+		});
+    	EasyButton.setText("Easy");
+    	add(EasyButton);
+            
+//            MedButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, height, buttonWidth, 60);
+//	MedButton.addActionListener((ActionEvent e) -> {
+//                GameBoard.setTime(med);
+//                GuiScreen.getInstance().setCurrentPanel("Play");
+//            });
+//	MedButton.setText("Medium");
+//	add(MedButton);
+            
+	HardButton = new GuiButton(3 * Game.WIDTH / 4 - buttonWidth / 2, height, buttonWidth, 60);
+	HardButton.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			GameBoard.setTime(hard);
+			GuiScreen.getInstance().setCurrentPanel("Play");
+		}
+	});
 	HardButton.setText("Hard");
 	add(HardButton);
 }
