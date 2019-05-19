@@ -15,20 +15,21 @@ public class MainMenuPanel extends GuiPanel {
 	private Font creatorFont = Game.main.deriveFont(24f);
 	private String title = "2048";
 	private String creator = "By ";
-	private int buttonWidth = 220;
+	private int buttonWidth = 200;
         private ScoreManager score;
-        private int a=310;
+        private int height = 250;
         public static boolean diff=false;
+        public GuiButton resumeButton;
         public GuiButton Resume;
 	public GuiButton playButton;	
         public GuiButton scoreButton;
         public GuiButton quitButton ;
 	public MainMenuPanel() {
 		super(); 
-                Resume=new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, 220, buttonWidth, 60);
-                playButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, a, buttonWidth, 60);	
-                scoreButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, a+90, buttonWidth, 60);
-                quitButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, a+180, buttonWidth, 60);
+		Resume = new GuiButton(Game.WIDTH / 8 - buttonWidth / 2, height, buttonWidth, 60);
+		playButton = new GuiButton(3* Game.WIDTH / 8 - buttonWidth / 2, height, buttonWidth, 60);
+		scoreButton = new GuiButton(5 * Game.WIDTH / 8 - buttonWidth / 2, height, buttonWidth, 60);
+		quitButton = new GuiButton(7 * Game.WIDTH / 8 - buttonWidth / 2, height, buttonWidth, 60);
                 
                 Resume.addActionListener((ActionEvent e) -> {
                     GuiScreen.getInstance().setCurrentPanel("Play");
