@@ -29,7 +29,7 @@ public class DifficultyPanel extends GuiPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				GameBoard.setTime(easy);
+				GameBoard.setTime(easy);
 				GuiScreen.getInstance().setCurrentPanel("Play");
 			}
 		});
@@ -41,7 +41,7 @@ public class DifficultyPanel extends GuiPanel {
     		
     		@Override
     		public void actionPerformed(ActionEvent e) {
-//    			GameBoard.setTime(hard);
+    			GameBoard.setTime(hard);
     			GuiScreen.getInstance().setCurrentPanel("Play");
 		}
 	});

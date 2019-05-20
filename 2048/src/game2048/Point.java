@@ -2,7 +2,6 @@ package game2048;
 
 public class Point {
 	
-	
 	public int row;
 	public int col;
 	
