@@ -59,16 +59,17 @@ public class PlayPanel extends GuiPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				GuiScreen.getInstance().setCurrentPanel("Difficulty");
-//				board.getScore().reset();
-//				board.reset();
-//				alpha = 0;
-//
-//				remove(tryAgain);
-//				remove(screenShot);
-//				remove(mainMenu);
+			board.getScore().reset();
+			board.reset();
+			alpha = 0;
 
-				added = false;
+			remove(tryAgain);
+			remove(screenShot);
+			remove(mainMenu);
+
+			added = false;
+			
+			GuiScreen.getInstance().setCurrentPanel("Difficulty");
 			}
 		});
 
