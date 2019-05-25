@@ -71,7 +71,7 @@ public class LeaderBoards {
 		}
 	}
 	
-	public void loadScores() {
+	public void loadScore() {
 		try {
 			File f = new File(filePath, highScore);
 			if (!f.isFile()) {
@@ -103,7 +103,7 @@ public class LeaderBoards {
 		}
 	}
 
-	public void saveScores() {
+	public void saveScore() {
 		FileWriter output = null;
 
 		try {

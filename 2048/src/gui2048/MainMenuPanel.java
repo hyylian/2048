@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 
 import game2048.DrawUtils;
 import game2048.Game;
-import game2048.GameBoard;
 
 public class MainMenuPanel extends GuiPanel {
 
@@ -19,7 +18,7 @@ public class MainMenuPanel extends GuiPanel {
 	private int buttonHeight = 60;
 //        private ScoreManager score;
 	private int height = 250;
-	public static boolean newPlay = false;
+	public static boolean newGame = false;
 	public GuiButton resumeButton;
 	public GuiButton playButton;
 	public GuiButton scoreButton;
@@ -39,7 +38,7 @@ public class MainMenuPanel extends GuiPanel {
 		add(resumeButton);
 
 		playButton.addActionListener((ActionEvent e) -> {
-			newPlay = true;
+			newGame = true;
 			GuiScreen.getInstance().setCurrentPanel("Difficulty");
 		});
 		playButton.setText("Play");

@@ -81,6 +81,9 @@ public class Tile {
 		} else if (value == 2048) {
 			background = new Color(0xffe400);
 			text = new Color(0xffffff);
+		} else if (value == 1) {
+			background = Color.black;
+			text = Color.black;
 		} else {
 			background = Color.black;
 			text = Color.white;

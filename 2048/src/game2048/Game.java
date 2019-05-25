@@ -108,8 +108,8 @@ public class Game extends JPanel implements KeyListener, Runnable, MouseListener
 			// FPS timer
 			if (System.currentTimeMillis() - fpsTimer > 1000) {
 				System.out.printf("%d fps %d updates", fps, updates);
-                                System.out.println(" "+GameBoard.getTime());
-                                fps = 0;
+				System.out.println("");
+				fps = 0;
 				updates = 0;
 				fpsTimer += 1000;
 			}

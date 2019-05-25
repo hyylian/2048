@@ -30,7 +30,7 @@ public class LeaderBoardPanel extends GuiPanel{
 	public LeaderBoardPanel(){
 		super();
 		lBoard = LeaderBoards.getInstance();
-		lBoard.loadScores();
+		lBoard.loadScore();
 
 		GuiButton tileButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, buttonY, buttonWidth, buttonHeight);
 		tileButton.addActionListener(new ActionListener() {

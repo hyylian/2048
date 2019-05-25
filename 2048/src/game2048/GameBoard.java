@@ -1,19 +1,12 @@
 package game2048;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.InputStreamReader;
 import java.util.Random;
 
-import gui2048.MainMenuPanel;
+import gui2048.DifficultyPanel;
 
 public class GameBoard {
 	
@@ -24,17 +17,14 @@ public class GameBoard {
 	private Tile[][] board;
 	private boolean dead;
 	private boolean won;
-	private boolean shuffle;
         private BufferedImage gameBoard;
 	private int x;
 	private int y;
-        private int a;
-        private int b;
 	private static int SPACING = 10;
 	public static int BOARD_WIDTH = (COLS + 1) * SPACING + COLS * Tile.WIDTH;
 	public static int BOARD_HEIGHT = (ROWS + 1) * SPACING + ROWS * Tile.HEIGHT;
         private static long time;
-        private long timeL;
+        
 	private long elapsedMS;
 	private long startTime;
 	private boolean hasStarted;
@@ -51,7 +41,7 @@ public class GameBoard {
 		gameBoard = new BufferedImage(BOARD_WIDTH, BOARD_HEIGHT, BufferedImage.TYPE_INT_RGB);
 		createBoardImage();
 		lBoard = LeaderBoards.getInstance();
-		lBoard.loadScores();
+		lBoard.loadScore();
 		score = new ScoreManager(this);
 		score.loadGame();
 		score.setBestTime(lBoard.getFastestTime());
@@ -86,6 +76,9 @@ public class GameBoard {
 
 	private void start() {
 		for (int i = 0; i < startingTiles; i++) {
+			if (DifficultyPanel.difficulty == true) {
+				spawnBarrier();
+			}
 			spawnRandom();
 		}
 	}
@@ -111,18 +104,7 @@ public class GameBoard {
 	}
 
 	public void update() {
-//                if(MainMenuPanel.diff){
-//                        time=getTime();
-//                        ScoreManager.setDifficulty(time);
-//                }
-//                else{
-//                    time=ScoreManager.getDifficulty();
-//                }
-//                if( score.getTime() != 0 && score.getTime() % time==0){
-//                        score.shuffle();                                    
-//                        System.out.println("SHUF!");
-//                }
-                    
+		
 		saveCount++;
 		if (saveCount >= 120) { 
 			saveCount = 0;
@@ -144,8 +126,7 @@ public class GameBoard {
 		if (score.getCurrentScore() > score.getCurrentTopScore()) {
 			score.setCurrentTopScore(score.getCurrentScore());
 		}
-                
-                int count=0;
+		
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLS; col++) {
 				Tile current = board[row][col];
@@ -235,7 +216,7 @@ public class GameBoard {
 	private boolean move(int row, int col, int horizontalDirection, int verticalDirection, Direction direction) {
 		boolean canMove = false;
 		Tile current = board[row][col];
-		if (current == null) return false;
+		if (current == null || current.getValue() == 1) return false;
 		boolean move = true;
 		int newCol = col;
 		int newRow = row;
@@ -375,7 +356,26 @@ public class GameBoard {
 		}
 		return false;
 	}
+	
+	private void spawnBarrier() {
+		Random random = new Random();
+		boolean notValid = true;
 
+		while (notValid) {
+			int location = random.nextInt(GameBoard.ROWS * GameBoard.COLS);
+			int row = location / ROWS;
+			int col = location % COLS;
+			Tile current = board[row][col];
+			if (current == null) {
+				int value = 1;
+				Tile tile = new Tile(value, getTileX(col), getTileY(row));
+				board[row][col] = tile;
+				notValid = false;
+			}
+			DifficultyPanel.difficulty = false;
+		}
+	}
+	
 	private void spawnRandom() {
 		Random random = new Random();
 		boolean notValid = true;
@@ -386,7 +386,7 @@ public class GameBoard {
 			int col = location % COLS;
 			Tile current = board[row][col];
 			if (current == null) {
-                                int value = random.nextInt(10) < 9 ? 2:4;
+				int value = random.nextInt(10) < 9 ? 2:4;
 				Tile tile = new Tile(value, getTileX(col), getTileY(row));
 				board[row][col] = tile;
 				notValid = false;
@@ -432,7 +432,7 @@ public class GameBoard {
 		if(!this.dead && dead){
 			lBoard.addTile(getHighestTileValue());
 			lBoard.addScore(score.getCurrentScore());
-			lBoard.saveScores();
+			lBoard.saveScore();
 		}
 		this.dead = dead;
 	}
@@ -475,12 +475,12 @@ public class GameBoard {
 	public void setWon(boolean won) {
 		if(!this.won && won && !dead){ 
 			lBoard.addTime(score.getTime());
-			lBoard.saveScores();
+			lBoard.saveScore();
 		}
 		this.won = won;
 	}
 	
 	public ScoreManager getScore(){
 		return score;
-	} 
+	}
 }

@@ -114,9 +114,9 @@ public class PlayPanel extends GuiPanel {
 	@Override
 	public void update() {
 		board.update();
-		if (true == MainMenuPanel.newPlay) {
+		if (true == MainMenuPanel.newGame) {
 			newGame = true;
-			MainMenuPanel.newPlay = false;
+			MainMenuPanel.newGame = false;
 		}
 		newGame();
 		if (board.isDead()) {
