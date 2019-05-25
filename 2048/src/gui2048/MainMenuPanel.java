@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 
 import game2048.DrawUtils;
 import game2048.Game;
-import game2048.ScoreManager;
+import game2048.GameBoard;
 
 public class MainMenuPanel extends GuiPanel {
 
@@ -17,50 +17,52 @@ public class MainMenuPanel extends GuiPanel {
 	private String creator = "";
 	private int buttonWidth = 200;
 	private int buttonHeight = 60;
-        private ScoreManager score;
-        private int height = 250;
-        public static boolean diff=false;
-        public GuiButton resumeButton;
-        public GuiButton Resume;
-	public GuiButton playButton;	
-        public GuiButton scoreButton;
-        public GuiButton quitButton ;
+//        private ScoreManager score;
+	private int height = 250;
+	public static boolean newPlay = false;
+	public GuiButton resumeButton;
+	public GuiButton playButton;
+	public GuiButton scoreButton;
+	public GuiButton quitButton;
+
 	public MainMenuPanel() {
-		super(); 
-		Resume = new GuiButton(Game.WIDTH / 8 - buttonWidth / 2, height, buttonWidth, buttonHeight);
-		playButton = new GuiButton(3* Game.WIDTH / 8 - buttonWidth / 2, height, buttonWidth, buttonHeight);
+		super();
+		resumeButton = new GuiButton(Game.WIDTH / 8 - buttonWidth / 2, height, buttonWidth, buttonHeight);
+		playButton = new GuiButton(3 * Game.WIDTH / 8 - buttonWidth / 2, height, buttonWidth, buttonHeight);
 		scoreButton = new GuiButton(5 * Game.WIDTH / 8 - buttonWidth / 2, height, buttonWidth, buttonHeight);
 		quitButton = new GuiButton(7 * Game.WIDTH / 8 - buttonWidth / 2, height, buttonWidth, buttonHeight);
-                
-                Resume.addActionListener((ActionEvent e) -> {
-                    GuiScreen.getInstance().setCurrentPanel("Play");
-                });
-                Resume.setText("Resume");
-                add(Resume);
-                
-                playButton.addActionListener((ActionEvent e) -> {
-                    diff=true;
-                    GuiScreen.getInstance().setCurrentPanel("Difficulty");
-                });
-                playButton.setText("Play");
-                add(playButton);
-                
-                scoreButton.addActionListener((ActionEvent e) -> {
-                    GuiScreen.getInstance().setCurrentPanel("Leaderboards");
-                });
+
+		resumeButton.addActionListener((ActionEvent e) -> {
+			GuiScreen.getInstance().setCurrentPanel("Resume");
+		});
+		resumeButton.setText("Resume");
+		add(resumeButton);
+
+		playButton.addActionListener((ActionEvent e) -> {
+			newPlay = true;
+			GuiScreen.getInstance().setCurrentPanel("Difficulty");
+		});
+		playButton.setText("Play");
+		add(playButton);
+
+		scoreButton.addActionListener((ActionEvent e) -> {
+			GuiScreen.getInstance().setCurrentPanel("Leaderboards");
+		});
 		scoreButton.setText("Score");
 		add(scoreButton);
 		quitButton.addActionListener((ActionEvent e) -> {
-                    System.exit(0);
-                });
+			System.exit(0);
+		});
 		quitButton.setText("Quit");
 		add(quitButton);
 	}
-        @Override
-        public void update(){    
-        }
+
 	@Override
-	public void render(Graphics2D g){
+	public void update() {
+	}
+
+	@Override
+	public void render(Graphics2D g) {
 		super.render(g);
 		g.setFont(titleFont);
 		g.setColor(Color.black);

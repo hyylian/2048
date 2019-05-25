@@ -13,7 +13,7 @@ public class LeaderBoards {
 
 	private static LeaderBoards lBoard;
 	private String filePath;
-	private String highScores;
+	private String highScore;
 	
 	// ALL TIME LEADERBOARDS
 	private ArrayList<Integer> topScores;
@@ -27,7 +27,7 @@ public class LeaderBoards {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		highScores = "Scores";
+		highScore = "Score";
 		
 		topScores = new ArrayList<Integer>();
 		topTiles = new ArrayList<Integer>();
@@ -73,7 +73,7 @@ public class LeaderBoards {
 	
 	public void loadScores() {
 		try {
-			File f = new File(filePath, highScores);
+			File f = new File(filePath, highScore);
 			if (!f.isFile()) {
 				createSaveData();
 			}
@@ -107,7 +107,7 @@ public class LeaderBoards {
 		FileWriter output = null;
 
 		try {
-			File f = new File(filePath, highScores);
+			File f = new File(filePath, highScore);
 			output = new FileWriter(f);
 			BufferedWriter writer = new BufferedWriter(output);
 
@@ -124,7 +124,7 @@ public class LeaderBoards {
 
 	private void createSaveData() {
 		try {
-			File file = new File(filePath, highScores);
+			File file = new File(filePath, highScore);
 
 			FileWriter output = new FileWriter(file);
 			BufferedWriter writer = new BufferedWriter(output);

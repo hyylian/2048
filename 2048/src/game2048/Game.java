@@ -22,7 +22,7 @@ import gui2048.DifficultyPanel;
 public class Game extends JPanel implements KeyListener, Runnable, MouseListener, MouseMotionListener{
 
 	private static final long serialVersionUID = 1L;
-	public static final int WIDTH = 830; // width of the screen
+	public static final int WIDTH = 850; // width of the screen
 	public static final int HEIGHT = 430; // height of the screen
 	public static final Font main = new Font("Time New Roman", Font.PLAIN, 28); // font.plain just refers to is it italicized playing or bold
 	private Thread game; 
@@ -39,6 +39,7 @@ public class Game extends JPanel implements KeyListener, Runnable, MouseListener
 		screen = GuiScreen.getInstance();
 		screen.add("Menu", new MainMenuPanel());
 		screen.add("Play", new PlayPanel());
+		screen.add("Resume", new PlayPanel());
                 screen.add("Difficulty",new DifficultyPanel());
 		screen.add("Leaderboards", new LeaderBoardPanel());
 		screen.setCurrentPanel("Menu");

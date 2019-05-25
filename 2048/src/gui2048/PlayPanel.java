@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -14,7 +13,6 @@ import javax.imageio.ImageIO;
 import game2048.DrawUtils;
 import game2048.Game;
 import game2048.GameBoard;
-import game2048.Keyboard;
 import game2048.ScoreManager;
 
 public class PlayPanel extends GuiPanel {
@@ -38,8 +36,9 @@ public class PlayPanel extends GuiPanel {
 	private int alpha = 0; // fade effect
 	private Font gameOverFont;
 	private boolean screenshot;
-
-//        boolean newGame;
+	
+	public static boolean newGame = false;
+	
 	public PlayPanel() {
 		scoreFont = Game.main.deriveFont(24f);
 		gameOverFont = Game.main.deriveFont(70f);
@@ -59,17 +58,8 @@ public class PlayPanel extends GuiPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			board.getScore().reset();
-			board.reset();
-			alpha = 0;
-
-			remove(tryAgain);
-			remove(screenShot);
-			remove(mainMenu);
-
-			added = false;
-			
-			GuiScreen.getInstance().setCurrentPanel("Difficulty");
+				newGame = true;
+				newGame();
 			}
 		});
 
@@ -119,26 +109,22 @@ public class PlayPanel extends GuiPanel {
 		g.setColor(Color.red);
 		g.setFont(gameOverFont);
 		g.drawString("Game Over!", Game.WIDTH / 2 - DrawUtils.getMessageWidth("Game Over!", gameOverFont, g) / 2, Game.HEIGHT / 2 - 40);
-//		g.setColor(Color.black);
-//		g.setFont(scoreFont);
-//		g.drawString("Press ESC to Try Again",
-//				Game.WIDTH / 2 - DrawUtils.getMessageWidth("Press ESC to Try Again", scoreFont, g) / 2, 325);
 	}
 
 	@Override
 	public void update() {
 		board.update();
-//		if (true == MainMenuPanel.diff) {
-//			newGame = true;
-//			MainMenuPanel.diff = false;
-//		}
-//		newGame();
+		if (true == MainMenuPanel.newPlay) {
+			newGame = true;
+			MainMenuPanel.newPlay = false;
+		}
+		newGame();
 		if (board.isDead()) {
 			alpha++;
-			if (alpha > 170)
+			if (alpha > 170) {
 				alpha = 170;
+			}
 		}
-
 	}
 
 	@Override
@@ -172,17 +158,21 @@ public class PlayPanel extends GuiPanel {
 		super.render(g);
 	}
 
-//	public void newGame() {
-//		if (!Keyboard.pressed[KeyEvent.VK_ESCAPE] && Keyboard.prev[KeyEvent.VK_ESCAPE] || newGame) {
-//			board.reset();
-//			scores.reset();
-//			if (added) {
-//				remove(mainMenu);
-//				remove(screenShot);
-//				alpha = 0;
-//				added = false;
-//			}
-//			newGame = false;
-//		}
-//	}
+	public void newGame() {
+		if (newGame) {
+			board.getScore().reset();
+			board.reset();
+			if (added) {
+				alpha = 0;
+				added = false;
+				
+				remove(tryAgain);
+				remove(screenShot);
+				remove(mainMenu);
+				
+				GuiScreen.getInstance().setCurrentPanel("Difficulty");
+			}
+			newGame = false;
+		}
+	}
 }
