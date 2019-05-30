@@ -14,6 +14,7 @@ import game2048.DrawUtils;
 import game2048.Game;
 import game2048.GameBoard;
 import game2048.ScoreManager;
+import game2048.StackArr;
 
 public class PlayPanel extends GuiPanel {
 
@@ -23,11 +24,23 @@ public class PlayPanel extends GuiPanel {
 	private Font scoreFont;
 	private String timeF;
 	private String bestTimeF;
+	private GuiButton sound;
 
 	// Game Over
 	private GuiButton tryAgain;
 	private GuiButton mainMenu;
 	private GuiButton screenShot;
+
+	// Undo & Redo
+	private GuiButton redoButton;
+	private GuiButton undoButton;
+	private boolean canUndo = false;
+	private boolean canRedo = false;
+	private StackArr undo;
+	private StackArr redo;
+	public static final int undoTime = 6;
+	
+
 	private int smallButtonWidth = 160;
 	private int spacing = 30;
 	private int largeButtonWidth = smallButtonWidth * 2 + spacing;
@@ -36,19 +49,23 @@ public class PlayPanel extends GuiPanel {
 	private int alpha = 0; // fade effect
 	private Font gameOverFont;
 	private boolean screenshot;
-	
+
 	public static boolean newGame = false;
-	
+
 	public PlayPanel() {
 		scoreFont = Game.main.deriveFont(24f);
 		gameOverFont = Game.main.deriveFont(70f);
-		board = new GameBoard(Game.WIDTH - GameBoard.BOARD_WIDTH - 10, Game.HEIGHT / 2 - GameBoard.BOARD_HEIGHT / 2);
+		board = new GameBoard(Game.WIDTH - GameBoard.BOARD_WIDTH - 20, Game.HEIGHT / 2 - GameBoard.BOARD_HEIGHT / 2);
 		score = board.getScore();
-		info = new BufferedImage(Game.WIDTH, 200, BufferedImage.TYPE_INT_RGB);
+		info = new BufferedImage(Game.WIDTH - GameBoard.BOARD_WIDTH - 20, Game.HEIGHT, BufferedImage.TYPE_INT_RGB);
 
-		mainMenu = new GuiButton(Game.WIDTH / 2 - largeButtonWidth / 2, Game.HEIGHT - spacing - buttonHeight, largeButtonWidth, buttonHeight);
-		tryAgain = new GuiButton(Game.WIDTH / 3 - smallButtonWidth / 2, mainMenu.getY() - spacing - buttonHeight, smallButtonWidth, buttonHeight);
-		screenShot = new GuiButton(2* Game.WIDTH / 3 - smallButtonWidth / 2, tryAgain.getY(), smallButtonWidth, buttonHeight);
+		mainMenu = new GuiButton(Game.WIDTH / 2 - largeButtonWidth / 2, Game.HEIGHT - spacing - buttonHeight,
+				largeButtonWidth, buttonHeight);
+		tryAgain = new GuiButton(Game.WIDTH / 3 - smallButtonWidth / 2, mainMenu.getY() - spacing - buttonHeight,
+				smallButtonWidth, buttonHeight);
+		screenShot = new GuiButton(2 * Game.WIDTH / 3 - smallButtonWidth / 2, tryAgain.getY(), smallButtonWidth,
+				buttonHeight);
+		
 
 		tryAgain.setText("Try Again");
 		screenShot.setText("Screenshot");
@@ -78,6 +95,48 @@ public class PlayPanel extends GuiPanel {
 				GuiScreen.getInstance().setCurrentPanel("Menu");
 			}
 		});
+
+		// Undo && Redo
+		undo = new StackArr(undoTime);
+		redo = new StackArr(undoTime);
+		
+		undoButton = new GuiButton(30, info.getHeight() - 100, smallButtonWidth, buttonHeight);
+		redoButton = new GuiButton(undoButton.getX() + smallButtonWidth + 30, undoButton.getY(), smallButtonWidth,buttonHeight);
+
+		undoButton.setText("Undo");
+		redoButton.setText("Redo");
+
+		undoButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				canUndo = true;
+				undo();
+			}
+		});
+
+		redoButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				canRedo = true;
+				redo();
+			}
+		});
+
+		add(undoButton);
+		add(redoButton);
+		
+		sound = new GuiButton(30, Game.HEIGHT/2, smallButtonWidth, buttonHeight);
+		sound.setText("Sound");
+		sound.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		add(sound);
 	}
 
 	private void drawGui(Graphics2D g) {
@@ -108,11 +167,15 @@ public class PlayPanel extends GuiPanel {
 		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 		g.setColor(Color.red);
 		g.setFont(gameOverFont);
-		g.drawString("Game Over!", Game.WIDTH / 2 - DrawUtils.getMessageWidth("Game Over!", gameOverFont, g) / 2, Game.HEIGHT / 2 - 40);
+		g.drawString("Game Over!", Game.WIDTH / 2 - DrawUtils.getMessageWidth("Game Over!", gameOverFont, g) / 2,
+				Game.HEIGHT / 2 - 40);
 	}
 
 	@Override
 	public void update() {
+		if (canUndo == false) {
+			setUndo();
+		}
 		board.update();
 		if (true == MainMenuPanel.newGame) {
 			newGame = true;
@@ -121,8 +184,8 @@ public class PlayPanel extends GuiPanel {
 		newGame();
 		if (board.isDead()) {
 			alpha++;
-			if (alpha > 170) {
-				alpha = 170;
+			if (alpha > 180) {
+				alpha = 180;
 			}
 		}
 	}
@@ -152,6 +215,9 @@ public class PlayPanel extends GuiPanel {
 				add(mainMenu);
 				add(screenShot);
 				add(tryAgain);
+
+				remove(redoButton);
+				remove(undoButton);
 			}
 			drawGameOver(g);
 		}
@@ -165,14 +231,58 @@ public class PlayPanel extends GuiPanel {
 			if (added) {
 				alpha = 0;
 				added = false;
-				
+
 				remove(tryAgain);
 				remove(screenShot);
 				remove(mainMenu);
-				
+
 				GuiScreen.getInstance().setCurrentPanel("Difficulty");
+
+				add(undoButton);
+				add(redoButton);
 			}
 			newGame = false;
 		}
+	}
+	
+	public void undo() {
+		if (canUndo == true) {
+			if (undo.isEmpty()) {
+				System.out.println("U can not undo anymore!");
+			} else {
+				redo();
+				undo.pop();
+				int[][]arr = undo.pop();
+				board.changeToTile(arr);
+				System.out.println("Undo");
+				returnUndo();
+			}
+		}
+		canUndo = false;
+	}
+	
+	public void setUndo() {
+		this.undo = board.getUndo();
+	}
+	
+	public void returnUndo() {
+		board.setUndo(undo);
+	}
+	
+	public void redo() {
+		if (canRedo == true) {
+			if (redo.isEmpty()) {
+				System.out.println("U can not redo anymore!");
+			} else {
+				redo.pop();
+				int[][]arr = redo.pop();
+				board.changeToTile(arr);
+				System.out.println("redo");
+			}
+			canRedo = false;
+		} else {
+			redo.push(board.changeToArr());
+		}
+		
 	}
 }
