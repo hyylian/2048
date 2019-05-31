@@ -214,8 +214,7 @@ public class GameBoard {
 	private boolean move(int row, int col, int horizontalDirection, int verticalDirection, Direction direction) {
 		boolean canMove = false;
 		Tile current = board[row][col];
-		if (current == null || current.getValue() == 1)
-			return false;
+		if (current == null || current.getValue() == 1) return false;
 		boolean move = true;
 		int newCol = col;
 		int newRow = row;
@@ -248,6 +247,7 @@ public class GameBoard {
 		boolean canMove = false;
 		int horizontalDirection = 0;
 		int verticalDirection = 0;
+		pushToUndo(); //
 
 		if (direction == Direction.LEFT) {
 			horizontalDirection = -1;
@@ -304,9 +304,6 @@ public class GameBoard {
 
 		if (canMove) {
 			spawnRandom();
-			
-			pushToUndo(); //
-
 			setDead(checkDead());
 		}
 	}
@@ -372,6 +369,7 @@ public class GameBoard {
 
 	public void pushToUndo() {
 		undo.push(changeToArr());
+		System.out.println("Push");
 	}
 
 	public StackArr getUndo() {

@@ -174,9 +174,10 @@ public class PlayPanel extends GuiPanel {
 	@Override
 	public void update() {
 		if (canUndo == false) {
+//			System.out.println("Push");
+			board.update();
 			setUndo();
 		}
-		board.update();
 		if (true == MainMenuPanel.newGame) {
 			newGame = true;
 			MainMenuPanel.newGame = false;
@@ -251,7 +252,6 @@ public class PlayPanel extends GuiPanel {
 				System.out.println("U can not undo anymore!");
 			} else {
 				redo();
-				undo.pop();
 				int[][]arr = undo.pop();
 				board.changeToTile(arr);
 				System.out.println("Undo");
@@ -274,7 +274,6 @@ public class PlayPanel extends GuiPanel {
 			if (redo.isEmpty()) {
 				System.out.println("U can not redo anymore!");
 			} else {
-				redo.pop();
 				int[][]arr = redo.pop();
 				board.changeToTile(arr);
 				System.out.println("redo");
