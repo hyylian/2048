@@ -1,5 +1,7 @@
 package game2048;
 
+import java.io.File;
+
 import javax.swing.JFrame;
 
 public class Main_2048 {
@@ -16,5 +18,8 @@ public class Main_2048 {
 		window.setVisible(true);
 		
 		game.start();
+		
+		Sound soundd = soundd = new Sound(new File("res/Main.wav"));
+		soundd.play();
 	}
 }

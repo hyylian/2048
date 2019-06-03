@@ -18,6 +18,7 @@ import gui2048.LeaderBoardPanel;
 import gui2048.MainMenuPanel;
 import gui2048.PlayPanel;
 import gui2048.DifficultyPanel;
+import java.io.File;
 
 public class Game extends JPanel implements KeyListener, Runnable, MouseListener, MouseMotionListener{
 
@@ -29,6 +30,7 @@ public class Game extends JPanel implements KeyListener, Runnable, MouseListener
 	private boolean running; // keep track on thread: starting, stopping 
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private GuiScreen screen;
+        private Sound soundd;
 	
 	public Game() {
 		setFocusable(true);
@@ -136,6 +138,8 @@ public class Game extends JPanel implements KeyListener, Runnable, MouseListener
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+                soundd = new Sound(new File("res/Press.wav"));
+                soundd.play();
 		Keyboard.keyPressed(e);
 	}
 
@@ -150,6 +154,8 @@ public class Game extends JPanel implements KeyListener, Runnable, MouseListener
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+                soundd = new Sound(new File("res/Click.wav"));
+                soundd.play();
 		screen.mousePressed(e);
 	}
 
