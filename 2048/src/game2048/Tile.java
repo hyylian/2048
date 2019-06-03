@@ -52,14 +52,14 @@ public class Tile {
 			background = new Color(0xe9e9e9);
 			text = new Color(0x000000);
 		} else if (value == 4) {
-			background = new Color(0xe6daab);
+			background = new Color(0xDE3163);
 			text = new Color(0xffffff);
 		} else if (value == 8) {
 			background = new Color(0xf79d3d);
-			text = new Color(0xffffff);
+			text = new Color(0x0000FF);
 		} else if (value == 16) {
-			background = new Color(0xf28007);
-			text = new Color(0xffffff);
+			background = new Color(0xFFF00);
+			text = new Color(0xBF00BF);
 		} else if (value == 32) {
 			background = new Color(0xf55e3b);
 			text = new Color(0xffffff);

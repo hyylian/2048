@@ -25,6 +25,7 @@ public class PlayPanel extends GuiPanel {
 	private String timeF;
 	private String bestTimeF;
 	private GuiButton sound;
+	private GuiButton menu;
 
 	// Game Over
 	private GuiButton tryAgain;
@@ -39,7 +40,6 @@ public class PlayPanel extends GuiPanel {
 	private StackArr undo;
 	private StackArr redo;
 	public static final int undoTime = 6;
-	
 
 	private int smallButtonWidth = 160;
 	private int spacing = 30;
@@ -95,14 +95,36 @@ public class PlayPanel extends GuiPanel {
 				GuiScreen.getInstance().setCurrentPanel("Menu");
 			}
 		});
+		
+		sound = new GuiButton(30, info.getHeight() - 80, smallButtonWidth, buttonHeight);
+		menu = new GuiButton(sound.getX() + smallButtonWidth + 30, sound.getY(), smallButtonWidth,buttonHeight);
+		sound.setText("Sound");
+		menu.setText("Menu");
+		
+		sound.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		menu.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GuiScreen.getInstance().setCurrentPanel("Menu");
+			}
+		});
+		
+		add(sound);
+		add(menu);
 
 		// Undo && Redo
 		undo = new StackArr(undoTime);
 		redo = new StackArr(undoTime);
 		
-		undoButton = new GuiButton(30, info.getHeight() - 100, smallButtonWidth, buttonHeight);
+		undoButton = new GuiButton(30, menu.getY() - 20 - buttonHeight, smallButtonWidth, buttonHeight);
 		redoButton = new GuiButton(undoButton.getX() + smallButtonWidth + 30, undoButton.getY(), smallButtonWidth,buttonHeight);
-
 		undoButton.setText("Undo");
 		redoButton.setText("Redo");
 
@@ -127,16 +149,6 @@ public class PlayPanel extends GuiPanel {
 		add(undoButton);
 		add(redoButton);
 		
-		sound = new GuiButton(30, Game.HEIGHT/2, smallButtonWidth, buttonHeight);
-		sound.setText("Sound");
-		sound.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		add(sound);
 	}
 
 	private void drawGui(Graphics2D g) {

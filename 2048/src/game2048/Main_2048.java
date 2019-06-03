@@ -19,7 +19,8 @@ public class Main_2048 {
 		
 		game.start();
 		
-		Sound soundd = soundd = new Sound(new File("res/Main.wav"));
+		Sound soundd;
+		soundd = soundd = new Sound(new File("res/Main.wav"));
 		soundd.play();
 	}
 }
