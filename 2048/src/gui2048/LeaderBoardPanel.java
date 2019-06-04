@@ -17,10 +17,10 @@ public class LeaderBoardPanel extends GuiPanel{
 	private int buttonWidth = 100;
 	private int backButtonWidth = 220;
 	private int buttonSpacing = 20;
-	private int buttonY = 120;
+	private int buttonY = 100;
 	private int buttonHeight = 50;
 	private int leaderboardsX = 130;
-	private int leaderboardsY = buttonY + buttonHeight + 90;
+	private int leaderboardsY = buttonY + buttonHeight + 40;
 	
 	private String title = "Leaderboards";
 	private Font titleFont = Game.main.deriveFont(48f);
@@ -62,7 +62,7 @@ public class LeaderBoardPanel extends GuiPanel{
 		timeButton.setText("Times");
 		add(timeButton);
 		
-		GuiButton backButton = new GuiButton(Game.WIDTH / 2 - backButtonWidth / 2, 500, backButtonWidth, 60);
+		GuiButton backButton = new GuiButton(Game.WIDTH / 2 - backButtonWidth / 2, Game.HEIGHT - buttonHeight - 30, backButtonWidth, 60);
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -113,7 +113,7 @@ public class LeaderBoardPanel extends GuiPanel{
 	public void render(Graphics2D g){
 		super.render(g);
 		g.setColor(Color.black);
-		g.drawString(title, Game.WIDTH / 2 - DrawUtils.getMessageWidth(title, titleFont, g) / 2, DrawUtils.getMessageHeight(title, titleFont, g) + 40);
+		g.drawString(title, Game.WIDTH / 2 - DrawUtils.getMessageWidth(title, titleFont, g) / 2, DrawUtils.getMessageHeight(title, titleFont, g) + 20);
 		drawLeaderboards(g);
 	}
 	
