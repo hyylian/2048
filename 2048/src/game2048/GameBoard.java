@@ -234,7 +234,6 @@ public class GameBoard {
 				canMove = true;
 				board[newRow - verticalDirection][newCol - horizontalDirection] = null;
 				board[newRow][newCol].setSlideTo(new Point(newRow, newCol));
-				board[newRow][newCol].setCombineAnimation(true);
 				score.setCurrentScore(score.getCurrentScore() + board[newRow][newCol].getValue());
 			} else {
 				move = false;

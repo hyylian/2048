@@ -231,6 +231,8 @@ public class PlayPanel extends GuiPanel {
 
 				remove(redoButton);
 				remove(undoButton);
+				remove(sound);
+				remove(menu);
 			}
 			drawGameOver(g);
 		}
@@ -253,6 +255,8 @@ public class PlayPanel extends GuiPanel {
 
 				add(undoButton);
 				add(redoButton);
+				add(sound);
+				add(menu);
 			}
 			newGame = false;
 		}
